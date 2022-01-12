@@ -1,2 +1,2 @@
 # cinemax
-Projet de base de données - Cinémax
+Projet de base de données - CinémaX
