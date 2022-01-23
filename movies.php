@@ -345,217 +345,128 @@ error_reporting(E_ALL);
                             <h1 class="display-4 mb-2" id="modal-filmTitle">
                                 title
                             </h1>
-
-                            <!-- Text -->
-                            <p class="fs-lg text-gray-700 mb-5 mb-md-0" id="modal-filmRating">
-                                rating
+                            <p class="fs-lg text-gray-700 mb-5 mb-md-0" id="modal-filmCategory">
+                                category
                             </p>
                         </div>
                         <div class="col-auto">
-
-                            <!-- Buttons -->
-                            <a href="#!" class="btn btn-primary-soft me-1">
-                                Refer a friend
-                            </a>
-                            <a href="#!" class="btn btn-primary">
-                                Apply
-                            </a>
-
+                            <!-- Badges -->
+                            <span class="badge badge-lg bg-primary-soft" id="modal-filmPrice">price</span>
                         </div>
                     </div> <!-- / .row -->
                     <div class="row">
                         <div class="col-12">
-
                             <!-- Divider -->
                             <hr class="my-6 my-md-8 border-gray-300">
-
                         </div>
                     </div> <!-- / .row -->
                     <div class="row">
                         <div class="col-12 col-md-8">
+                            <!-- Heading -->
+                            <h3>Synopsis</h3>
+                            <!-- Text -->
+                            <p class="text-gray-800 mb-6 mb-md-8" id="modal-filmDescription">description</p>
 
                             <!-- Heading -->
-                            <h3>
-                                Who we are
-                            </h3>
-
-                            <!-- Text -->
-                            <p class="text-gray-800 mb-6 mb-md-8">
-                                We believe lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat elit vitae enim lacinia semper. Cras nulla lectus, porttitor vitae urna iaculis, malesuada tincidunt lectus. Proin nec tellus sit amet massa auctor imperdiet id vitae diam. Aenean gravida est nec diam suscipit iaculis. Praesent urna velit, auctor nec turpis et, vehicula lobortis sem. Vivamus convallis mi sagittis eleifend laoreet. Praesent vitae venenatis enim. Nulla tincidunt felis et lectus rhoncus laoreet.
-                            </p>
-
-                            <!-- Heading -->
-                            <h3>
-                                What we’re looking for
-                            </h3>
-
-                            <!-- Text -->
-                            <p class="text-gray-800 mb-5">
-                                Aenean gravida est nec diam suscipit iaculis. Praesent urna velit, auctor nec turpis et, vehicula lobortis sem. Vivamus convallis mi sagittis eleifend laoreet. Praesent vitae venenatis enim. Nulla tincidunt felis et lectus rhoncus laoreet.
-                            </p>
-
+                            <h3>Description</h3>
                             <!-- List -->
                             <div class="d-flex">
-
                                 <!-- Badge -->
                                 <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
+                                    <span class="fe fe-clock"></span>
                                 </div>
-
                                 <!-- Text -->
-                                <p class="text-gray-800">
-                                    Work through complex design problems to create beautiful and thoughtful interactions for our marketing web platform
-                                </p>
-
+                                <p class="text-gray-800" id="modal-filmLength">length</p>
                             </div>
                             <div class="d-flex">
-
                                 <!-- Badge -->
                                 <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
+                                    <span class="fe fe-users"></span>
                                 </div>
-
                                 <!-- Text -->
-                                <p class="text-gray-800">
-                                    Demonstrate an expertise in typography, composition, layout, design thinking, and content strategy in the design solutions you create
-                                </p>
-
+                                <p class="text-gray-800" id="modal-filmActors">acteurs</p>
                             </div>
                             <div class="d-flex">
-
                                 <!-- Badge -->
                                 <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
+                                    <span class="fe fe-globe"></span>
                                 </div>
-
                                 <!-- Text -->
-                                <p class="text-gray-800">
-                                    Consider UX from a user journey level across several brand touchpoints, as well as within specific interactions
-                                </p>
-
+                                <p class="text-gray-800" id="modal-filmLanguage">language</p>
                             </div>
                             <div class="d-flex">
-
                                 <!-- Badge -->
                                 <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
+                                    <span class="fe fe-film"></span>
                                 </div>
-
                                 <!-- Text -->
-                                <p class="text-gray-800">
-                                    Design at a systems level, where components can be re-used and built to scale, optimized across different screen sizes and devices
-                                </p>
-
+                                <p class="text-gray-800" id="modal-filmBonus">bonus</p>
                             </div>
                             <div class="d-flex">
-
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
+                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4" id="modal-filmRatingIcon">
+                                    <span class="fe fe-disc"></span>
                                 </div>
-
                                 <!-- Text -->
-                                <p class="text-gray-800 mb-6 mb-md-8">
-                                    Iterate quickly and communicate ideas across various levels of fidelity, with the ability to receive feedback constructively as well as provide feedback to other’s work
-                                </p>
-
-                            </div>
-
-                            <!-- Heading -->
-                            <h3 class="mb-5">
-                                Applicant requirements
-                            </h3>
-
-                            <!-- List -->
-                            <div class="d-flex">
-
-                                <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
-                                </div>
-
-                                <!-- Text -->
-                                <p class="text-gray-800">
-                                    Work through complex design problems to create beautiful and thoughtful interactions for our marketing web platform
-                                </p>
-
+                                <p class="text-gray-800" id="modal-filmRatingMeaning">meaning</p>
                             </div>
                             <div class="d-flex">
-
                                 <!-- Badge -->
                                 <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
-                                    <i class="fe fe-check"></i>
+                                    <span class="fe fe-calendar"></span>
                                 </div>
-
                                 <!-- Text -->
-                                <p class="text-gray-800 mb-6 mb-md-0">
-                                    Demonstrate an expertise in typography, composition, layout, design thinking, and content strategy in the design solutions you create
-                                </p>
-
+                                <p class="text-gray-800" id="modal-filmRentalDuration">rental duration</p>
                             </div>
-
                         </div>
-                        <div class="col-12 col-md-4">
 
+                        <div class="col-12 col-md-4">
                             <!-- Card -->
                             <div class="card shadow-light-lg mb-5">
                                 <div class="card-body">
-
                                     <!-- Heading -->
                                     <h4>
                                         Need help?
                                     </h4>
-
                                     <!-- Text -->
                                     <p class="fs-sm text-gray-800 mb-5">
                                         Not sure exactly what we’re looking for or just want clarification? We’d be happy to chat with you and clear things up for you. Anytime!
                                     </p>
-
                                     <!-- Heading -->
                                     <h6 class="fw-bold text-uppercase text-gray-700 mb-2">
                                         Call anytime
                                     </h6>
-
                                     <!-- Text -->
                                     <p class="fs-sm mb-5">
                                         <a href="tel:555-123-4567" class="text-reset">(555) 123-4567</a>
                                     </p>
-
                                     <!-- Heading -->
                                     <h6 class="fw-bold text-uppercase text-gray-700 mb-2">
                                         Email us
                                     </h6>
-
                                     <!-- Text -->
                                     <p class="fs-sm mb-0">
                                         <a href="mailto:support@goodthemes.co" class="text-reset">support@goodthemes.co</a>
                                     </p>
-
                                 </div>
                             </div>
-
                             <!-- Card -->
                             <div class="card shadow-light-lg">
                                 <div class="card-body">
-
                                     <!-- Heading -->
                                     <h4>
                                         Don't see a job for you?
                                     </h4>
-
                                     <!-- Text -->
                                     <p class="fs-sm text-gray-800">
                                         Do you feel like you belong working with Good Themes, but we just don’t have your dream job posted? No problem, just reach out.
                                     </p>
-
                                     <!-- Heading -->
                                     <a href="#!" class="fw-bold fs-sm text-decoration-none">
                                         Let us know <i class="fe fe-arrow-right ms-3"></i>
                                     </a>
-
                                 </div>
                             </div>
-
                         </div>
                     </div> <!-- / .row -->
                 </div> <!-- / .container -->
@@ -564,83 +475,65 @@ error_reporting(E_ALL);
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-
                             <!-- Card -->
                             <div class="card card-border border-primary shadow-light-lg">
                                 <div class="card-body">
-
                                     <!-- Form -->
                                     <form>
                                         <div class="row">
                                             <div class="col-12 col-md-6">
-
                                                 <div class="form-group mb-5">
                                                     <label class="form-label" for="applyName">Full name</label>
                                                     <input class="form-control" id="applyName" type="text" placeholder="Full name">
                                                 </div>
-
                                             </div>
                                             <div class="col-12 col-md-6">
-
                                                 <div class="form-group mb-5">
                                                     <label class="form-label" for="applyEmail">Email</label>
                                                     <input class="form-control" id="applyEmail" type="text" placeholder="hello@domain.com">
                                                 </div>
-
                                             </div>
                                         </div> <!-- / .row -->
                                         <div class="row">
                                             <div class="col-12 col-md-6">
-
                                                 <div class="form-group mb-5">
                                                     <label class="form-label">Cover letter</label>
                                                     <input class="form-control" id="applyCover" type="file">
                                                 </div>
-
                                             </div>
                                             <div class="col-12 col-md-6">
-
                                                 <div class="form-group mb-5">
                                                     <div class="form-group mb-5">
                                                         <label class="form-label">Resume</label>
                                                         <input class="form-control" id="applyResume" type="file">
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div> <!-- / .row -->
                                         <div class="row">
                                             <div class="col-12">
-
                                                 <div class="form-group mb-5">
                                                     <label class="form-label" for="applyMessage">Why is Landkit important to you?</label>
                                                     <textarea class="form-control" id="applyMessage" rows="5" placeholder="Let us know!"></textarea>
                                                 </div>
-
                                             </div>
                                         </div> <!-- / .row -->
                                         <div class="row align-items-center">
                                             <div class="col-12 col-md">
-
                                                 <!-- Submit -->
                                                 <button class="btn btn-primary mb-6 mb-md-0 lift">
                                                     Apply now <i class="fe fe-arrow-right ms-3"></i>
                                                 </button>
-
                                             </div>
                                             <div class="col-12 col-md-auto">
-
                                                 <p class="fs-sm text-muted mb-0">
                                                     Application will be send securely and remain private
                                                 </p>
-
                                             </div>
                                         </div> <!-- / .row -->
                                     </form>
-
                                 </div>
                             </div>
-
                         </div>
                     </div> <!-- / .row -->
                 </div> <!-- / .container -->

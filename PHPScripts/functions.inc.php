@@ -15,13 +15,14 @@ function getMovies($config) {
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         $stock = getFilmDisponibility($config, $data['film_id']);
         $disponibility = $stock == 0 ? "<span class=\"badge bg-danger-soft\">Indisponible</span>" : "<span class=\"badge bg-success-soft\">Disponible : ".$stock."</span>";
+        $category = getFilmCategory($config, $data['film_id']);
 
         if ($i % 3 == 0)
             $str .= "</div><div class=\"row\" style=\"margin-bottom: 15px;\">";
-        $str .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" data-bs-rating=\"".$data['rating']."\" data-bs-toggle=\"modal\" data-bs-target=\"#filmDetailsModal\" style=\"cursor: pointer;\">
+        $str .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" data-bs-rating=\"".$data['rating']."\" data-bs-price=\"".$data['rental_rate']."\" data-bs-rentalDuration=\"".$data['rental_duration']."\" data-bs-description=\"".$data['description']."\" data-bs-length=\"".$data['length']."\" data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" data-bs-bonus=\"".$data['special_features']."\" data-bs-category=\"".$category."\" data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" data-bs-toggle=\"modal\" data-bs-target=\"#filmDetailsModal\" style=\"cursor: pointer;\">
                   <div class=\"card-body my-auto \" href=\"#!\">
                       <h3 class=\"mt-auto\">".$data['title']."</h3>
-                      <h6 class='\"mt-auto\"'>".ratingToMeaning($data['rating'])."</h6>
+                      <h6 class='\"mt-auto\"'>".$category."</h6>
                       <p class=\"mb-0 text-muted\">
                       ".$data['description']."
                       </p>
@@ -67,4 +68,44 @@ function getFilmDisponibility($config, $film_id) {
     $req->bindParam(1, $film_id);
     $req->execute();
     return $req->fetch(PDO::FETCH_ASSOC)['total'];
+}
+
+function getLanguageName($config, $language_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT name FROM language WHERE language_id = ?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $language_id);
+    $req->execute();
+    return $req->fetch(PDO::FETCH_ASSOC)['name'];
+}
+
+function getFilmCategory($config, $film_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT name FROM category WHERE category_id = (SELECT category_id FROM film_category WHERE film_id = ?);';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $film_id);
+    $req->execute();
+    return $req->fetch(PDO::FETCH_ASSOC)['name'];
+}
+
+function getFilmActors($config, $film_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT first_name, last_name FROM film_actor INNER JOIN actor a on film_actor.actor_id = a.actor_id WHERE film_id = ?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $film_id);
+    $req->execute();
+    $str = '';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        $str .= ucfirst(strtolower($data['first_name'])).' '.ucfirst(strtolower($data['last_name'])).', ';
+
+    return substr($str, 0, -1);
 }
