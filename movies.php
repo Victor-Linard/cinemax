@@ -4,6 +4,8 @@ require "./PHPScripts/config.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+if (isset($_POST))
+    $filter = cleanUpFilter($_POST);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -265,20 +267,28 @@ error_reporting(E_ALL);
                                 <!-- Label -->
                                 <label class="form-label" for="filmCategory">Catégorie</label>
                                 <!-- Select -->
-                                <select class="form-select form-select-sm" data-choices='{"removeItemButton": true}' multiple id="filmCategory">
-                                    <?php echo getAllCategory($CONFIG['database']); ?>
+                                <select name="category" class="form-select form-select-sm" data-choices id="filmCategory">
+                                    <?php
+                                    if (isset($_POST['category']))
+                                        echo getAllCategory($CONFIG['database'], $_POST['category']);
+                                    else
+                                        echo getAllCategory($CONFIG['database']);
+                                    ?>
                                 </select>
                             </div>
                         </div>
                         <div class="col-12 col-md-4">
-                            <div class="form-group mb-5 mb-md-0">
+                            <div class="form-group mb-0">
                                 <!-- Label -->
-                                <label class="form-label" for="filmDisponibility">Disponibilité</label>
+                                <label class="form-label" for="filmStore">Disponible en magasin</label>
                                 <!-- Select -->
-                                <select class="form-select form-select-sm" data-choices id="filmDisponibility">
-                                    <option selected>Peu importe</option>
-                                    <option >En stock</option>
-                                    <option>Indiponible</option>
+                                <select name="store" class="form-select form-select-sm" data-choices id="filmStore">
+                                    <?php
+                                    if (isset($_POST['store']))
+                                        echo getAllStore($CONFIG['database'], $_POST['store']);
+                                    else
+                                        echo getAllStore($CONFIG['database']);
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -287,7 +297,7 @@ error_reporting(E_ALL);
                                 <!-- Label -->
                                 <label class="form-label" for="filmTitle">Titre</label>
                                 <!-- Select -->
-                                <input class="form-control form-control-sm" id="filmTitle" type="text" placeholder="Entrez du texte">
+                                <input name="title" class="form-control form-control-sm" id="filmTitle" type="text" placeholder="Entrez du texte" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '';?>">
                             </div>
                         </div>
                     </div>
@@ -297,7 +307,7 @@ error_reporting(E_ALL);
                                 <!-- Label -->
                                 <label class="form-label" for="filmMinPrice">De</label>
                                 <!-- Select -->
-                                <input class="form-control form-control-sm" id="filmMinPrice" type="text" placeholder="€">
+                                <input name="minPrice" class="form-control form-control-sm" id="filmMinPrice" type="text" placeholder="€" value="<?php echo isset($_POST['minPrice']) ? $_POST['minPrice'] : '';?>">
                             </div>
                         </div>
                         <div class="col-12 col-md-2">
@@ -305,34 +315,46 @@ error_reporting(E_ALL);
                                 <!-- Label -->
                                 <label class="form-label" for="filmMaxPrice">À</label>
                                 <!-- Select -->
-                                <input class="form-control form-control-sm" id="filmMaxPrice" type="text" placeholder="€">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group mb-0">
-                                <!-- Label -->
-                                <label class="form-label" for="filmStore">Magasin</label>
-                                <!-- Select -->
-                                <select class="form-select form-select-sm" data-choices='{"removeItemButton": true}' multiple id="filmStore">
-                                    <?php echo getAllStore($CONFIG['database']); ?>
-                                </select>
+                                <input name="maxPrice" class="form-control form-control-sm" id="filmMaxPrice" type="text" placeholder="€" value="<?php echo isset($_POST['maxPrice']) ? $_POST['maxPrice'] : '';?>">
                             </div>
                         </div>
                         <div class="col-12 col-md-4">
                             <div class="form-group mb-0">
                                 <!-- Label -->
                                 <label class="form-label" for="filmFilterSend">Encore un clique.</label>
-                                <button type="button" class="w-100 btn btn-primary-soft btn-sm mb-1 lift" id="filmFilterSend">
+                                <button name="filter" type="submit" formmethod="post" class="w-100 btn btn-primary-soft btn-sm mb-1 lift" id="filmFilterSend">
                                     Filtrer
                                 </button>
                             </div>
                         </div>
+                        <?php
+                        if (isset($filter) && sizeof($filter) > 0) {
+                            echo '<div class="col-12 col-md-1">
+                            <div class="form-group mb-0">
+                                <label class="form-label" for="filmFilterSend">Filtres</label>
+                                <a href="./PHPScripts/deleteFilter.php" class="btn btn-rounded-circle btn-danger lift">
+                                    <i class="fe fe-trash-2"></i>
+                                </a>
+
+                            </div>
+                        </div>';
+                        }
+                        ?>
                     </div> <!-- / .row -->
                 </form>
             </div>
         </div> <!-- / .row -->
         <div class="row align-items-center mb-5">
-            <?php echo getMovies($CONFIG['database']); ?>
+            <?php
+            if (isset($filter) && preventSQLInjection($filter)) {
+                echo '<script>window.location.href = "https://img.over-blog-kiwi.com/1/99/88/66/20180607/ob_cac6fe_3f28281b-3377-45e2-96f3-34ebc2c7879c.png"</script>';
+                exit(0);
+            }
+            if (isset($filter) && sizeof($filter) > 0) {
+                echo getFilteredMovies($CONFIG['database'], $filter);}
+            else
+                echo getMovies($CONFIG['database']);
+            ?>
             <!-- Text -->
             <p class="fs-sm text-center text-muted mb-0">
                 Vous ne trouvez ce que vous cherchez ? <a href="mailto:contact@cinemax.com">Demandez nous</a>.
