@@ -372,7 +372,7 @@ error_reporting(E_ALL);
                             <!-- List -->
                             <div class="d-flex">
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
+                                <div class="badge badge-rounded-circle bg-secondary-soft mt-1 me-4">
                                     <span class="fe fe-clock"></span>
                                 </div>
                                 <!-- Text -->
@@ -380,7 +380,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="d-flex">
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
+                                <div class="badge badge-rounded-circle bg-secondary-soft mt-1 me-4">
                                     <span class="fe fe-users"></span>
                                 </div>
                                 <!-- Text -->
@@ -388,7 +388,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="d-flex">
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
+                                <div class="badge badge-rounded-circle bg-secondary-soft mt-1 me-4">
                                     <span class="fe fe-globe"></span>
                                 </div>
                                 <!-- Text -->
@@ -396,7 +396,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="d-flex">
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
+                                <div class="badge badge-rounded-circle bg-secondary-soft mt-1 me-4">
                                     <span class="fe fe-film"></span>
                                 </div>
                                 <!-- Text -->
@@ -404,7 +404,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="d-flex">
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4" id="modal-filmRatingIcon">
+                                <div class="badge badge-rounded-circle bg-secondary-soft mt-1 me-4" id="modal-filmRatingIcon">
                                     <span class="fe fe-disc"></span>
                                 </div>
                                 <!-- Text -->
@@ -412,7 +412,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="d-flex">
                                 <!-- Badge -->
-                                <div class="badge badge-rounded-circle bg-success-soft mt-1 me-4">
+                                <div class="badge badge-rounded-circle bg-secondary-soft mt-1 me-4">
                                     <span class="fe fe-calendar"></span>
                                 </div>
                                 <!-- Text -->
@@ -421,119 +421,10 @@ error_reporting(E_ALL);
                         </div>
 
                         <div class="col-12 col-md-4">
-                            <!-- Card -->
-                            <div class="card shadow-light-lg mb-5">
-                                <div class="card-body">
-                                    <!-- Heading -->
-                                    <h4>
-                                        Need help?
-                                    </h4>
-                                    <!-- Text -->
-                                    <p class="fs-sm text-gray-800 mb-5">
-                                        Not sure exactly what we’re looking for or just want clarification? We’d be happy to chat with you and clear things up for you. Anytime!
-                                    </p>
-                                    <!-- Heading -->
-                                    <h6 class="fw-bold text-uppercase text-gray-700 mb-2">
-                                        Call anytime
-                                    </h6>
-                                    <!-- Text -->
-                                    <p class="fs-sm mb-5">
-                                        <a href="tel:555-123-4567" class="text-reset">(555) 123-4567</a>
-                                    </p>
-                                    <!-- Heading -->
-                                    <h6 class="fw-bold text-uppercase text-gray-700 mb-2">
-                                        Email us
-                                    </h6>
-                                    <!-- Text -->
-                                    <p class="fs-sm mb-0">
-                                        <a href="mailto:support@goodthemes.co" class="text-reset">support@goodthemes.co</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Card -->
-                            <div class="card shadow-light-lg">
-                                <div class="card-body">
-                                    <!-- Heading -->
-                                    <h4>
-                                        Don't see a job for you?
-                                    </h4>
-                                    <!-- Text -->
-                                    <p class="fs-sm text-gray-800">
-                                        Do you feel like you belong working with Good Themes, but we just don’t have your dream job posted? No problem, just reach out.
-                                    </p>
-                                    <!-- Heading -->
-                                    <a href="#!" class="fw-bold fs-sm text-decoration-none">
-                                        Let us know <i class="fe fe-arrow-right ms-3"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- / .row -->
-                </div> <!-- / .container -->
-            </section>
-            <section class="pt-8 pt-md-11 pb-8 pb-md-14">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Card -->
-                            <div class="card card-border border-primary shadow-light-lg">
-                                <div class="card-body">
-                                    <!-- Form -->
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group mb-5">
-                                                    <label class="form-label" for="applyName">Full name</label>
-                                                    <input class="form-control" id="applyName" type="text" placeholder="Full name">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group mb-5">
-                                                    <label class="form-label" for="applyEmail">Email</label>
-                                                    <input class="form-control" id="applyEmail" type="text" placeholder="hello@domain.com">
-                                                </div>
-                                            </div>
-                                        </div> <!-- / .row -->
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group mb-5">
-                                                    <label class="form-label">Cover letter</label>
-                                                    <input class="form-control" id="applyCover" type="file">
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group mb-5">
-                                                    <div class="form-group mb-5">
-                                                        <label class="form-label">Resume</label>
-                                                        <input class="form-control" id="applyResume" type="file">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> <!-- / .row -->
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group mb-5">
-                                                    <label class="form-label" for="applyMessage">Why is Landkit important to you?</label>
-                                                    <textarea class="form-control" id="applyMessage" rows="5" placeholder="Let us know!"></textarea>
-                                                </div>
-                                            </div>
-                                        </div> <!-- / .row -->
-                                        <div class="row align-items-center">
-                                            <div class="col-12 col-md">
-                                                <!-- Submit -->
-                                                <button class="btn btn-primary mb-6 mb-md-0 lift">
-                                                    Apply now <i class="fe fe-arrow-right ms-3"></i>
-                                                </button>
-                                            </div>
-                                            <div class="col-12 col-md-auto">
-                                                <p class="fs-sm text-muted mb-0">
-                                                    Application will be send securely and remain private
-                                                </p>
-                                            </div>
-                                        </div> <!-- / .row -->
-                                    </form>
-                                </div>
-                            </div>
+                            <h4>
+                                Disponibilités
+                            </h4>
+                            <div id="modal-filmDisponibility"></div>
                         </div>
                     </div> <!-- / .row -->
                 </div> <!-- / .container -->

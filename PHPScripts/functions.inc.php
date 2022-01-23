@@ -19,7 +19,20 @@ function getMovies($config) {
 
         if ($i % 3 == 0)
             $str .= "</div><div class=\"row\" style=\"margin-bottom: 15px;\">";
-        $str .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" data-bs-rating=\"".$data['rating']."\" data-bs-price=\"".$data['rental_rate']."\" data-bs-rentalDuration=\"".$data['rental_duration']."\" data-bs-description=\"".$data['description']."\" data-bs-length=\"".$data['length']."\" data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" data-bs-bonus=\"".$data['special_features']."\" data-bs-category=\"".$category."\" data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" data-bs-toggle=\"modal\" data-bs-target=\"#filmDetailsModal\" style=\"cursor: pointer;\">
+        $str .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" 
+                                                                               data-bs-rating=\"".$data['rating']."\" 
+                                                                               data-bs-price=\"".$data['rental_rate']."\" 
+                                                                               data-bs-rentalDuration=\"".$data['rental_duration']."\" 
+                                                                               data-bs-description=\"".$data['description']."\" 
+                                                                               data-bs-length=\"".$data['length']."\" 
+                                                                               data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" 
+                                                                               data-bs-bonus=\"".$data['special_features']."\" 
+                                                                               data-bs-category=\"".$category."\" 
+                                                                               data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" 
+                                                                               data-bs-stores=\"".getStores($config, $data['film_id'])."\" 
+                                                                               data-bs-toggle=\"modal\" 
+                                                                               data-bs-target=\"#filmDetailsModal\" 
+                                                                               style=\"cursor: pointer;\">
                   <div class=\"card-body my-auto \" href=\"#!\">
                       <h3 class=\"mt-auto\">".$data['title']."</h3>
                       <h6 class='\"mt-auto\"'>".$category."</h6>
@@ -108,4 +121,64 @@ function getFilmActors($config, $film_id) {
         $str .= ucfirst(strtolower($data['first_name'])).' '.ucfirst(strtolower($data['last_name'])).', ';
 
     return substr($str, 0, -1);
+}
+
+function getStores($config, $film_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT * FROM store;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+    $str = '';
+
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        $contact = getStaffContact($config, $data['manager_staff_id']);
+        $address = getStoreAddress($config, $data['store_id']);
+        $disponibility = getStoreDisponibility($config, $data['store_id'], $film_id);
+        $str .= $data['store_id'].':'.$contact.':'.$address.':'.$disponibility.'|';
+    }
+    return substr($str, 0, -1);
+}
+
+function getStaffContact($config, $staff_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT email FROM staff WHERE staff_id = ?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $staff_id);
+    $req->execute();
+    return $req->fetch(PDO::FETCH_ASSOC)['email'];
+}
+
+function getStoreAddress($config, $store_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'select address, city from address inner join city c on address.city_id = c.city_id where address_id = (select address_id from store where store_id = ?);';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $store_id);
+    $req->execute();
+    $res = $req->fetch(PDO::FETCH_ASSOC);
+    return $res['address'].', '.$res['city'];
+}
+
+function getStoreDisponibility($config, $store_id, $film_id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'CALL film_in_stock(?,?,@count);';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $film_id);
+    $req->bindParam(2, $store_id);
+    $req->execute();
+    $i = 0;
+    while ($req->fetch(PDO::FETCH_ASSOC))
+        $i++;
+    return $i;
 }
