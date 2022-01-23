@@ -182,3 +182,32 @@ function getStoreDisponibility($config, $store_id, $film_id) {
         $i++;
     return $i;
 }
+
+function getAllCategory($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT name from category;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+    $str = '';
+    while ($res = $req->fetch(PDO::FETCH_ASSOC))
+        $str .= '<option>'.$res['name'].'</option>';
+    return $str;
+}
+
+function getAllStore($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT store.address_id, a.address, c.city from store inner join address a on store.address_id = a.address_id inner join city c on a.city_id = c.city_id;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+    $str = '';
+    while ($res = $req->fetch(PDO::FETCH_ASSOC)) {
+        $str .= '<option value="' . $res['address_id'] . '">' . $res['address'] . ', ' . $res['city'] . '</option>';
+    }
+    return $str;
+}

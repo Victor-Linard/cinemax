@@ -193,8 +193,9 @@ error_reporting(E_ALL);
     <div class="container-fluid">
 
         <!-- Brand -->
-        <a class="navbar-brand" href="./index.html">
-            <img src="./assets/img/brand.svg" class="navbar-brand-img" alt="...">
+        <a class="navbar-brand" href="./index.php">
+            <h3>Cinemax</h3>
+            <!-- <img src="./assets/img/brand.svg" class="navbar-brand-img" alt="...">-->
         </a>
 
         <!-- Toggler -->
@@ -250,73 +251,80 @@ error_reporting(E_ALL);
     <div class="container pb-8 pb-md-11 border-bottom border-gray-300">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 text-center">
-
                 <!-- Heading -->
-                <h2>
-                    Cherchons le film qui <span class="text-primary">vous </span> correspond.
-                </h2>
-
+                <h2>Cherchons le film qui <span class="text-primary">vous </span> correspond.</h2>
             </div>
         </div> <!-- / .row -->
         <div class="row">
             <div class="col-12">
-
                 <!-- Form -->
                 <form class="mb-7 mb-md-9">
                     <div class="row">
                         <div class="col-12 col-md-4">
-
                             <div class="form-group mb-5 mb-md-0">
-
                                 <!-- Label -->
-                                <label class="form-label" for="applyRoles">Roles</label>
-
+                                <label class="form-label" for="filmCategory">Catégorie</label>
                                 <!-- Select -->
-                                <select class="form-select" id="applyRoles">
-                                    <option selected>All roles</option>
-                                    <option>Design</option>
-                                    <option>Engineering</option>
-                                    <option>Product</option>
-                                    <option>Testing</option>
-                                    <option>Support</option>
+                                <select class="form-select form-select-sm" data-choices='{"removeItemButton": true}' multiple id="filmCategory">
+                                    <?php echo getAllCategory($CONFIG['database']); ?>
                                 </select>
-
                             </div>
-
                         </div>
                         <div class="col-12 col-md-4">
-
                             <div class="form-group mb-5 mb-md-0">
-
                                 <!-- Label -->
-                                <label class="form-label" for="applyTeam">Team</label>
-
+                                <label class="form-label" for="filmDisponibility">Disponibilité</label>
                                 <!-- Select -->
-                                <select class="form-select" id="applyTeam">
-                                    <option selected>All teams</option>
-                                    <option>Consumer</option>
-                                    <option>Consulting</option>
-                                    <option>Internal tools</option>
+                                <select class="form-select form-select-sm" data-choices id="filmDisponibility">
+                                    <option selected>Peu importe</option>
+                                    <option >En stock</option>
+                                    <option>Indiponible</option>
                                 </select>
-
                             </div>
-
                         </div>
                         <div class="col-12 col-md-4">
-
                             <div class="form-group mb-0">
-
                                 <!-- Label -->
-                                <label class="form-label" for="applyLocation">Location</label>
-
+                                <label class="form-label" for="filmTitle">Titre</label>
                                 <!-- Select -->
-                                <select class="form-select" id="applyLocation">
-                                    <option selected>All locations</option>
-                                    <option>London</option>
-                                    <option>Los Angeles</option>
-                                    <option>Paris</option>
-                                    <option>San Francisco</option>
+                                <input class="form-control form-control-sm" id="filmTitle" type="text" placeholder="Entrez du texte">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 1rem;">
+                        <div class="col-12 col-md-2">
+                            <div class="form-group mb-0">
+                                <!-- Label -->
+                                <label class="form-label" for="filmMinPrice">De</label>
+                                <!-- Select -->
+                                <input class="form-control form-control-sm" id="filmMinPrice" type="text" placeholder="€">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group mb-0">
+                                <!-- Label -->
+                                <label class="form-label" for="filmMaxPrice">À</label>
+                                <!-- Select -->
+                                <input class="form-control form-control-sm" id="filmMaxPrice" type="text" placeholder="€">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group mb-0">
+                                <!-- Label -->
+                                <label class="form-label" for="filmStore">Magasin</label>
+                                <!-- Select -->
+                                <select class="form-select form-select-sm" data-choices='{"removeItemButton": true}' multiple id="filmStore">
+                                    <?php echo getAllStore($CONFIG['database']); ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group mb-0">
+                                <!-- Label -->
+                                <label class="form-label" for="filmFilterSend">Encore un clique.</label>
+                                <button type="button" class="w-100 btn btn-primary-soft btn-sm mb-1 lift" id="filmFilterSend">
+                                    Filtrer
+                                </button>
                             </div>
                         </div>
                     </div> <!-- / .row -->
@@ -324,13 +332,11 @@ error_reporting(E_ALL);
             </div>
         </div> <!-- / .row -->
         <div class="row align-items-center mb-5">
-
             <?php echo getMovies($CONFIG['database']); ?>
             <!-- Text -->
             <p class="fs-sm text-center text-muted mb-0">
-                Don’t see the job you want? <a href="#!">Let us know</a>.
+                Vous ne trouvez ce que vous cherchez ? <a href="mailto:contact@cinemax.com">Demandez nous</a>.
             </p>
-
         </div> <!-- / .container -->
 </section>
 
