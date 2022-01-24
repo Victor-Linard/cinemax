@@ -66,8 +66,14 @@ if(isset($_POST['submitSignIn'])) {
   <?php if(isset($_GET['wrongInfo'])) { ?>
       <script>connectionResult('wrongInfo'); </script>
   <?php } ?>
-  <?php if(isset($_GET['account'])) { ?>
-      <script>connectionResult('wrongInfo'); </script>
+  <?php if(isset($_GET['mailAlreadyExist'])) { ?>
+      <script>createAccountResult('mailAlreadyExist'); </script>
+  <?php } ?>
+  <?php if(isset($_GET['accountCreationError'])) { ?>
+      <script>createAccountResult('accountCreationError'); </script>
+  <?php } ?>
+  <?php if(isset($_GET['accountCreationSuccess'])) { ?>
+      <script>createAccountResult('accountCreationSuccess'); </script>
   <?php } ?>
 
   <?php echo getSignModal(); ?>
