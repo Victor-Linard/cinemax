@@ -1,9 +1,10 @@
 <?php
 
-require 'config.php';
-include('functions.inc.php');
+require_once 'PHPScripts/config.php';
+require_once 'PHPScripts/functions.inc.php';
+$config_db = $CONFIG['database'];
 
-if (isset($_POST['submitSignup'])) {
+if (isset($_POST['submitSignUp'])) {
     $email = $_POST['email'];
     $password = encrypt($salt, htmlspecialchars($_POST['confirmedPassword']));
     $type_of_account = 'normal';
