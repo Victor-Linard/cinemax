@@ -6,7 +6,7 @@ $config_db = $CONFIG['database'];
 
 if (isset($_POST['submitSignUp'])) {
     $email = $_POST['email'];
-    $password = encrypt($salt, htmlspecialchars($_POST['confirmedPassword']));
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $type_of_account = 'normal';
     if (isset($_POST['offers'])) {
         $offers = $_POST['offers'];
