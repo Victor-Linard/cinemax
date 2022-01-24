@@ -18,36 +18,7 @@ function getMovies($config) {
         $disponibility = $stock == 0 ? "<span class=\"badge bg-danger-soft\">Indisponible</span>" : "<span class=\"badge bg-success-soft\">Disponible : ".$stock."</span>";
         $category = getFilmCategory($config, $data['film_id']);
 
-        if ($i % 3 == 0)
-            $str .= "</div><div class=\"row\" style=\"margin-bottom: 15px;\">";
-        $str .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" 
-                                                                               data-bs-rating=\"".$data['rating']."\" 
-                                                                               data-bs-price=\"".$data['rental_rate']."\" 
-                                                                               data-bs-rentalDuration=\"".$data['rental_duration']."\" 
-                                                                               data-bs-description=\"".$data['description']."\" 
-                                                                               data-bs-length=\"".$data['length']."\" 
-                                                                               data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" 
-                                                                               data-bs-bonus=\"".$data['special_features']."\" 
-                                                                               data-bs-category=\"".$category."\" 
-                                                                               data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" 
-                                                                               data-bs-stores=\"".getStores($config, $data['film_id'])."\" 
-                                                                               data-bs-toggle=\"modal\" 
-                                                                               data-bs-target=\"#filmDetailsModal\" 
-                                                                               style=\"cursor: pointer;\">
-                  <div class=\"card-body my-auto \" href=\"#!\">
-                      <h3 class=\"mt-auto\">".$data['title']."</h3>
-                      <h6 class='\"mt-auto\"'>".$category."</h6>
-                      <p class=\"mb-0 text-muted\">
-                      ".$data['description']."
-                      </p>
-                  </div>
-                  <div class=\"card-meta\" href=\"#!\">
-                      <hr class=\"card-meta-divider\">
-                      <h6 class=\"text-uppercase text-muted me-2 mb-0\">".$data['rental_rate']." €</h6>
-                      <p class=\"h6 text-uppercase text-muted mb-0 ms-auto\">".$disponibility."</p>
-                  </div>
-              </div>
-          </div>";
+        $str .= constructMovieCard($config, $i, $data, $disponibility, $category);
         $i++;
     }
 
@@ -248,36 +219,7 @@ function getFilteredMovies($config, $filter) {
         $disponibility = $stock == 0 ? "<span class=\"badge bg-danger-soft\">Indisponible</span>" : "<span class=\"badge bg-success-soft\">Disponible : ".$stock."</span>";
         $category = getFilmCategory($config, $data['film_id']);
 
-        if ($i % 3 == 0)
-            $str .= "</div><div class=\"row\" style=\"margin-bottom: 15px;\">";
-        $str .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" 
-                                                                               data-bs-rating=\"".$data['rating']."\" 
-                                                                               data-bs-price=\"".$data['rental_rate']."\" 
-                                                                               data-bs-rentalDuration=\"".$data['rental_duration']."\" 
-                                                                               data-bs-description=\"".$data['description']."\" 
-                                                                               data-bs-length=\"".$data['length']."\" 
-                                                                               data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" 
-                                                                               data-bs-bonus=\"".$data['special_features']."\" 
-                                                                               data-bs-category=\"".$category."\" 
-                                                                               data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" 
-                                                                               data-bs-stores=\"".getStores($config, $data['film_id'])."\" 
-                                                                               data-bs-toggle=\"modal\" 
-                                                                               data-bs-target=\"#filmDetailsModal\" 
-                                                                               style=\"cursor: pointer;\">
-                  <div class=\"card-body my-auto \" href=\"#!\">
-                      <h3 class=\"mt-auto\">".$data['title']."</h3>
-                      <h6 class='\"mt-auto\"'>".$category."</h6>
-                      <p class=\"mb-0 text-muted\">
-                      ".$data['description']."
-                      </p>
-                  </div>
-                  <div class=\"card-meta\" href=\"#!\">
-                      <hr class=\"card-meta-divider\">
-                      <h6 class=\"text-uppercase text-muted me-2 mb-0\">".$data['rental_rate']." €</h6>
-                      <p class=\"h6 text-uppercase text-muted mb-0 ms-auto\">".$disponibility."</p>
-                  </div>
-              </div>
-          </div>";
+        $str .= constructMovieCard($config, $i, $data, $disponibility, $category);
         $i++;
     }
     $color = $i == 0 ? "bg-danger-soft" : "bg-primary-soft";
@@ -288,6 +230,42 @@ function getFilteredMovies($config, $filter) {
                     </span>
                 </div>
             </div>".$str;
+}
+
+function constructMovieCard($config, $i, $data, $disponibility, $category) {
+    $card = '';
+    if ($i % 3 == 0)
+        $card .= "</div><div class=\"row\" style=\"margin-bottom: 15px;\">";
+    $card .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" 
+                                                                           data-bs-rating=\"".$data['rating']."\" 
+                                                                           data-bs-price=\"".$data['rental_rate']."\" 
+                                                                           data-bs-rentalDuration=\"".$data['rental_duration']."\" 
+                                                                           data-bs-description=\"".$data['description']."\" 
+                                                                           data-bs-length=\"".$data['length']."\" 
+                                                                           data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" 
+                                                                           data-bs-bonus=\"".$data['special_features']."\" 
+                                                                           data-bs-category=\"".$category."\" 
+                                                                           data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" 
+                                                                           data-bs-stores=\"".getStores($config, $data['film_id'])."\" 
+                                                                           data-bs-toggle=\"modal\" 
+                                                                           data-bs-target=\"#filmDetailsModal\" 
+                                                                           style=\"cursor: pointer;\">
+              <div class=\"card-body my-auto \" href=\"#!\">
+                  <h3 class=\"mt-auto\">".$data['title']."</h3>
+                  <h6 class='\"mt-auto\"'>".$category."</h6>
+                  <p class=\"mb-0 text-muted\">
+                  ".$data['description']."
+                  </p>
+              </div>
+              <div class=\"card-meta\" href=\"#!\">
+                  <hr class=\"card-meta-divider\">
+                  <h6 class=\"text-uppercase text-muted me-2 mb-0\">".$data['rental_rate']." €</h6>
+                  <p class=\"h6 text-uppercase text-muted mb-0 ms-auto\">".$disponibility."</p>
+              </div>
+          </div>
+      </div>";
+
+    return $card;
 }
 
 function cleanUpFilter($filter) {
@@ -325,4 +303,18 @@ function constructFilteredQueries($filter) {
     $sql .= ' WHERE '.substr($where, 4, strlen($where)).';';
 
     return $sql;
+}
+
+function isStaff($config, $email) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT staff_id FROM staff WHERE email = ?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
+
+    return $req->fetch(PDO::FETCH_ASSOC);
+
 }
