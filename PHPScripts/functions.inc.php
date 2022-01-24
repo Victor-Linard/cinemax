@@ -316,5 +316,55 @@ function isStaff($config, $email) {
     $req->execute();
 
     return $req->fetch(PDO::FETCH_ASSOC);
+}
 
+function getFilmNumber($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT COUNT(film_id) cfi FROM film;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+
+    return $req->fetch(PDO::FETCH_ASSOC)['cfi'];
+}
+
+function getClientNumber($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT COUNT(customer_id) cci FROM customer;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+
+    return $req->fetch(PDO::FETCH_ASSOC)['cci'];
+}
+
+function getRentalNumber($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT COUNT(rental_id) cri FROM rental;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+
+    return $req->fetch(PDO::FETCH_ASSOC)['cri'];
+}
+
+function get10LastNewFilm($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT * FROM film ORDER BY last_update DESC LIMIT 10;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+    $str = '{"strings": [';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        $str .= '"'.$data['title'].'",';
+
+    return substr($str, 0, -1).']}';
 }

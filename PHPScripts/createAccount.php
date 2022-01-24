@@ -7,7 +7,9 @@ require_once 'functions.inc.php';
 $config_db = $CONFIG['database'];
 
 if (isset($_POST['submitSignUp'])) {
-    $email = strtolower($_POST['email']);
+    $fs = htmlspecialchars($_POST['firstName']);
+    $ln = htmlspecialchars($_POST['lastName']);
+    $email = htmlspecialchars(strtolower($_POST['email']));
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
     $db_options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
@@ -25,8 +27,8 @@ if (isset($_POST['submitSignUp'])) {
 
     $sql = 'INSERT INTO customer (first_name, last_name, email, password, create_date) VALUES (?,?,?,?, NOW());';
     $req = $DB->prepare($sql);
-    $req->bindParam(1, $_POST['firstName']);
-    $req->bindParam(2, $_POST['lastName']);
+    $req->bindParam(1, $fs);
+    $req->bindParam(2, $ln);
     $req->bindParam(3, $email);
     $req->bindParam(4, $password);
     if ($req->execute())

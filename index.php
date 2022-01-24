@@ -83,14 +83,13 @@ if(isset($_POST['submitSignIn'])) {
     <section data-jarallax data-speed=".8" class="pt-12 pb-10 pt-md-15 pb-md-14" style="background-image: url(Images/rows-red-seats-theater.jpg)">
       <div class="container">
         <div class="row align-items-center">
-          <div class="col-12 col-md-8 col-lg-6">
+          <div class="col-12 col-md-9 col-lg-8">
 
             <!-- Heading -->
             <h1 class="display-3 fw-bold text-white" id="welcomeHeadingSource">
               Nos nouveautés <br />
-              <span class="text-warning" data-typed='{"strings": ["ACADEMY DINOSAUR", "ACE GOLDFINGER", "ADAPTATION HOLES", "AFFAIR PREJUDICE"]}'></span>
+              <span class="text-warning" data-typed='<?php echo get10LastNewFilm($config_db);?>'></span>
             </h1>
-
 
             <!-- Text -->
             <p class="fs-lg text-white-80 mb-6">
@@ -98,7 +97,7 @@ if(isset($_POST['submitSignIn'])) {
             </p>
 
               <div class="input-group">
-                  <a href="movies.php" class="btn w-100 btn-primary d-flex align-items-center">
+                  <a href="movies.php" class="btn w-50 btn-primary d-flex align-items-center">
                       Découvrez nos films<i class="fe fe-arrow-right ms-auto"></i>
                   </a>
               </div>
@@ -106,7 +105,6 @@ if(isset($_POST['submitSignIn'])) {
         </div> <!-- / .row -->
       </div> <!-- / .container -->
     </section>
-
 
     <!-- PROCESS -->
     <section class="pt-8 pt-md-11">
@@ -285,7 +283,7 @@ if(isset($_POST['submitSignIn'])) {
                   <div class="d-flex">
                       <div class="pe-5">
                           <h3 class="mb-0">
-                              <span data-countup='{"startVal": 0}' data-to="74" data-aos data-aos-id="countup:in">0</span>k
+                              <span data-countup='{"startVal": 0}' data-to="<?php echo getFilmNumber($config_db);?>" data-aos data-aos-id="countup:in">0</span>
                           </h3>
                           <p class="text-gray-700 mb-0">
                               Films
@@ -293,7 +291,7 @@ if(isset($_POST['submitSignIn'])) {
                       </div>
                       <div class="px-5">
                           <h3 class="mb-0">
-                              <span data-countup='{"startVal": 0}' data-to="124" data-aos data-aos-id="countup:in">0</span>k
+                              <span data-countup='{"startVal": 0}' data-to="<?php echo getClientNumber($config_db);?>" data-aos data-aos-id="countup:in">0</span>
                           </h3>
                           <p class="text-gray-700 mb-0">
                               Clients
@@ -301,7 +299,7 @@ if(isset($_POST['submitSignIn'])) {
                       </div>
                       <div class="ps-5">
                           <h3 class="mb-0">
-                              <span data-countup='{"startVal": "0.0", "decimalPlaces": 1}' data-to="1.9" data-aos data-aos-id="countup:in">0.0</span>k
+                              <span data-countup='{"startVal": "0"}' data-to="<?php echo getRentalNumber($config_db);?>" data-aos data-aos-id="countup:in">0</span>
                           </h3>
                           <p class="text-gray-700 mb-0">
                               Locations
