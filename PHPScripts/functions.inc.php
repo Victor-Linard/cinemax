@@ -236,20 +236,21 @@ function constructMovieCard($config, $i, $data, $disponibility, $category) {
     $card = '';
     if ($i % 3 == 0)
         $card .= "</div><div class=\"row\" style=\"margin-bottom: 15px;\">";
-    $card .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-title=\"".$data['title']."\" 
-                                                                           data-bs-rating=\"".$data['rating']."\" 
-                                                                           data-bs-price=\"".$data['rental_rate']."\" 
-                                                                           data-bs-rentalDuration=\"".$data['rental_duration']."\" 
-                                                                           data-bs-description=\"".$data['description']."\" 
-                                                                           data-bs-length=\"".$data['length']."\" 
-                                                                           data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" 
-                                                                           data-bs-bonus=\"".$data['special_features']."\" 
-                                                                           data-bs-category=\"".$category."\" 
-                                                                           data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" 
-                                                                           data-bs-stores=\"".getStores($config, $data['film_id'])."\" 
-                                                                           data-bs-toggle=\"modal\" 
-                                                                           data-bs-target=\"#filmDetailsModal\" 
-                                                                           style=\"cursor: pointer;\">
+    $card .= "<div class=\"col-4\"><div class=\"card shadow-light-lg lift\" data-bs-filmid=\"".$data['film_id']."\" 
+                                                                            data-bs-title=\"".$data['title']."\"
+                                                                            data-bs-rating=\"".$data['rating']."\" 
+                                                                            data-bs-price=\"".$data['rental_rate']."\" 
+                                                                            data-bs-rentalDuration=\"".$data['rental_duration']."\" 
+                                                                            data-bs-description=\"".$data['description']."\" 
+                                                                            data-bs-length=\"".$data['length']."\" 
+                                                                            data-bs-language=\"".getLanguageName($config, $data['language_id'])."\" 
+                                                                            data-bs-bonus=\"".$data['special_features']."\" 
+                                                                            data-bs-category=\"".$category."\" 
+                                                                            data-bs-actors=\"".getFilmActors($config, $data['film_id'])."\" 
+                                                                            data-bs-stores=\"".getStores($config, $data['film_id'])."\" 
+                                                                            data-bs-toggle=\"modal\" 
+                                                                            data-bs-target=\"#filmDetailsModal\" 
+                                                                            style=\"cursor: pointer;\">
               <div class=\"card-body my-auto \" href=\"#!\">
                   <h3 class=\"mt-auto\">".$data['title']."</h3>
                   <h6 class='\"mt-auto\"'>".$category."</h6>
@@ -367,4 +368,33 @@ function get10LastNewFilm($config) {
         $str .= '"'.$data['title'].'",';
 
     return substr($str, 0, -1).']}';
+}
+
+function get10BestSellers($config) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT COUNT(i.film_id) count, i.film_id, f.title FROM rental INNER JOIN inventory i on rental.inventory_id = i.inventory_id INNER JOIN film f on i.film_id = f.film_id GROUP BY i.film_id ORDER BY count DESC;';
+    $req = $DB->prepare($sql);
+    $req->execute();
+    $str = '{"strings": [';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC))
+        $str .= '"'.$data['title'].'",';
+
+    return substr($str, 0, -1).']}';
+}
+
+function getNameFromEmail($config, $email) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT first_name, last_name FROM customer WHERE email=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['first_name'].' '.$data['last_name'];
 }

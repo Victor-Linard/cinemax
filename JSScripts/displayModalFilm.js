@@ -1,6 +1,7 @@
 const filmModal = document.getElementById('filmDetailsModal');
 filmModal.addEventListener('show.bs.modal', function (event) {
     const card = event.relatedTarget;
+    const filmid = card.getAttribute('data-bs-filmid')
     const title = card.getAttribute('data-bs-title')
     const category = card.getAttribute('data-bs-category');
     const rating = card.getAttribute('data-bs-rating');
@@ -41,7 +42,7 @@ filmModal.addEventListener('show.bs.modal', function (event) {
     modalFilmRatingMeaning.textContent = ratingToMeaning(rating);
     modalFilmRentalDuration.textContent = "À louer pour une durée de "+rentalDuration+" jours";
 
-    modalFilmDisponibility.innerHTML = createStoreCard(stores['stores']);
+    modalFilmDisponibility.innerHTML = createStoreCard(stores['stores'], filmid, title);
 })
 
 function ratingToMeaning(str) {
@@ -80,11 +81,11 @@ function strToDict(str) {
     return storeDict;
 }
 
-function createStoreCard(stores) {
+function createStoreCard(stores, filmid, filmTitle) {
     let cards = '';
     for (const store of stores) {
         let dispo = store['disponibility'] === "0" ? '<span style="margin-bottom: 1.5rem;" class="badge bg-danger-soft">Indisponible</span>' : '<span style="margin-bottom: 1.5rem;" class="badge bg-success-soft">Disponible : '+store['disponibility']+'</span>';
-        let location = store['disponibility'] === "0" ? "" : '<div class="mt-6"><button class="btn w-100 btn-primary-soft btn-xs lift" type="submit">Louer</button></div>';
+        let location = store['disponibility'] === "0" ? "" : '<div class="mt-6"><button class="btn w-100 btn-primary-soft btn-xs lift" onclick="confirmRental('+store['store_id']+','+filmid+',\''+store['address']+'\',\''+filmTitle+'\');">Louer</button></div>';
         cards += '<div class="card shadow-light-lg mb-5"> <div class="card-body"> ' +
             '<h4>Magasin '+store['store_id']+'</h4>' +
             '<h6 class="fw-bold text-uppercase text-gray-700 mb-2">Article</h6>' +

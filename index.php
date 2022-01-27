@@ -55,7 +55,7 @@ if(isset($_POST['submitSignIn'])) {
     <link rel="stylesheet" href="./assets/css/theme.bundle.css" />
 
 
-      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script type="text/javascript" src="JSScripts/launchSwal.js"></script>
     
     <!-- Title -->
@@ -87,13 +87,13 @@ if(isset($_POST['submitSignIn'])) {
 
             <!-- Heading -->
             <h1 class="display-3 fw-bold text-white" id="welcomeHeadingSource">
-              Nos nouveautés <br />
-              <span class="text-warning" data-typed='<?php echo get10LastNewFilm($config_db);?>'></span>
+              Les plus demandés <br />
+              <span class="text-warning" data-typed='<?php echo get10BestSellers($config_db);?>'></span>
             </h1>
 
             <!-- Text -->
             <p class="fs-lg text-white-80 mb-6">
-              Avec Cinemax, amenez le cinéma jusque dans votre salon
+              Avec Cinemax, amenez le cinéma jusque dans votre salon.
             </p>
 
               <div class="input-group">

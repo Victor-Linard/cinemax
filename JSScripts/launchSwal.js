@@ -57,3 +57,25 @@ function connectionResult(result) {
         window.location = window.location.href.split('?')[0];
     })
 }
+
+function confirmRental(storeid, filmid, storeAdress, filmTitle) {
+    Swal.fire({
+        title: "Confirmation",
+        text: "Êtes-vous sûr de vouloir louer "+filmTitle+" ?",
+        icon: "question",
+        footer: 'Magasin : ' + storeAdress,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Merci !',
+                'Le film vous est réservé pour une durée de X jours.',
+                'success'
+            )
+        }
+    })
+}

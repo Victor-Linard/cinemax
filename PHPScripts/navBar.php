@@ -1,7 +1,9 @@
 <?php
 function getNavBar($config, $class) {
     require_once 'functions.inc.php';
+    $name = 'Mon compte';
     if (isset($_SESSION['id'])) {
+        $name = getNameFromEmail($config, $_SESSION['id']);
         if (isStaff($config, $_SESSION['id']))
             $dropdown = '<li class="dropdown-item dropend">
                             <a class="dropdown-item" href="./admin.php">
@@ -60,7 +62,7 @@ function getNavBar($config, $class) {
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarAccount" data-bs-toggle="dropdown" href="#"
                        aria-haspopup="true" aria-expanded="false">
-                        Mon compte
+                        '.$name.'
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarAccount">'.$dropdown.'</ul>
                 </li>

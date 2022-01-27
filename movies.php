@@ -57,13 +57,15 @@ if (isset($_POST))
     <!-- Theme CSS -->
     <link rel="stylesheet" href="./assets/css/theme.bundle.css"/>
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="JSScripts/launchSwal.js"></script>
 
     <!-- Title -->
     <title>Cinemax</title>
 </head>
 <body class="bg-light">
 
+    <?php echo getSignModal(); ?>
     <?php echo getNavBar($config_db, "navbar-light bg-light border-bottom mb-3"); ?>
 
     <!-- APPLYING -->
