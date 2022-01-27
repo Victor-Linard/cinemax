@@ -385,7 +385,7 @@ function get10BestSellers($config) {
     return substr($str, 0, -1).']}';
 }
 
-function getNameFromEmail($config, $email) {
+function getFullNameFromEmail($config, $email) {
     $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -397,4 +397,47 @@ function getNameFromEmail($config, $email) {
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
     return $data['first_name'].' '.$data['last_name'];
+}
+
+function getFirstNameFromEmail($config, $email) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT first_name FROM customer WHERE email=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['first_name'];
+}
+
+function getLastNameFromEmail($config, $email) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT last_name FROM customer WHERE email=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['last_name'];
+}
+
+function emailAlreadyExist($config, $email) {
+    $db_options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host=' . $config['db_address'] . ';dbname=' . $config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT email FROM customer WHERE email=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
+    if ($req->fetch(PDO::FETCH_ASSOC))
+        return true;
+    else
+        return false;
 }

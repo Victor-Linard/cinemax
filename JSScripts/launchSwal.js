@@ -36,6 +36,64 @@ function createAccountResult(result) {
     });
 }
 
+function accountModificationResult(result) {
+    let title = '';
+    let text  = '';
+    let icon  = '';
+
+    switch (result) {
+        case 'mailAlreadyExist':
+            title = 'Oops ! 😕';
+            text = 'Une erreur est survenue lors de la modification de votre compte, il semble que votre adresse email est déjà utilisée.';
+            icon = 'error';
+            break;
+        case 'accountModificationError':
+            title = 'Oops ! 😕';
+            text = 'Une erreur est survenue lors de la modification de votre compte.';
+            icon = 'error';
+            break;
+        case 'accountModificationSuccess':
+            title = 'Yeah ! 😎';
+            text = 'Votre compte à été modifié avec succès !';
+            icon = 'success';
+            break;
+        case 'noInformationChange':
+            title = 'Modification d\'information';
+            text = 'Vous n\'avez pas modifié vos informations.';
+            icon = 'info';
+            break;
+        case 'confirmPasswordIncorrect':
+            title = 'Changement de mot de passe';
+            text = 'Le mot de passe de confirmation ne correspond pas.';
+            icon = 'warning';
+            break;
+        case 'currentPasswordIncorrect':
+            title = 'Changement de mot de passe';
+            text = 'Votre mot de passe actuel est incorrecte.';
+            icon = 'warning';
+            break;
+        case 'changePasswordSuccess':
+            title = 'Changement de mot de passe';
+            text = 'Votre mot de passe à été changé.';
+            icon = 'success';
+            break;
+        case 'changePasswordError':
+            title = 'Changement de mot de passe';
+            text = 'Votre mot de passe n\'a pas pu être changé.';
+            icon = 'error';
+            break;
+    }
+
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+    })
+        .then((ok) => {
+            window.location = window.location.href.split('?')[0];
+        });
+}
+
 function connectionResult(result) {
     let title = '';
     let text  = '';

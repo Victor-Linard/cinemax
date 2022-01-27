@@ -1,11 +1,8 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-    require_once 'config.php';
-    require_once 'functions.inc.php';
-    $config_db = $CONFIG['database'];
-    session_start();
+require_once 'config.php';
+require_once 'functions.inc.php';
+$config_db = $CONFIG['database'];
+session_start();
 
 if (isset($_SESSION['id'])) {
     $db_options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
