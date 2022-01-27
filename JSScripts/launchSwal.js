@@ -31,9 +31,9 @@ function createAccountResult(result) {
         text: text,
         icon: icon,
     })
-        .then((ok) => {
-            window.location = window.location.href.split('?')[0];
-        });
+    .then((ok) => {
+        window.location = window.location.href.split('?')[0];
+    });
 }
 
 function connectionResult(result) {
@@ -78,4 +78,55 @@ function confirmRental(storeid, filmid, storeAdress, filmTitle) {
             )
         }
     })
+}
+
+function confirmDeleteAccount(email) {
+    Swal.fire({
+        title: "Confirmation",
+        text: "Êtes-vous sûr de vouloir nous quitter ?",
+        icon: "question",
+        footer: email,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            /*Swal.fire(
+                'Suppression',
+                'La demande va être envoyé.',
+                'info'
+            )*/
+            window.location.href = "./PHPScripts/deleteAccount.php";
+        }
+    })
+}
+
+function deleteAccountResult(result) {
+    let title = '';
+    let text  = '';
+    let icon  = '';
+
+    switch (result) {
+        case 'accountDeleteSuccess':
+            title = '😢';
+            text = 'On est triste de vous voir partir, n\'hésitez pas à nous dire ce qui ne vous a pas plus !';
+            icon = 'info';
+            break;
+        case 'accountDeleteError':
+            title = 'Oops ! 😕';
+            text = 'Une erreur est survenue lors de la supression de votre compte.';
+            icon = 'error';
+            break;
+    }
+
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+    })
+    .then((ok) => {
+        window.location = window.location.href.split('?')[0];
+    });
 }

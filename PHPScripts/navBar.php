@@ -12,7 +12,7 @@ function getNavBar($config, $class) {
                         </li>';
         else
             $dropdown = '<li class="dropdown-item dropend">
-                            <a class="dropdown-item" href="./account-general.html">
+                            <a class="dropdown-item" href="./profile.php">
                                 Général
                             </a>
                         </li>';

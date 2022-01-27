@@ -75,6 +75,12 @@ if(isset($_POST['submitSignIn'])) {
   <?php if(isset($_GET['accountCreationSuccess'])) { ?>
       <script>createAccountResult('accountCreationSuccess'); </script>
   <?php } ?>
+  <?php if(isset($_GET['accountDeleteSuccess'])) { ?>
+      <script>deleteAccountResult('accountDeleteSuccess'); </script>
+  <?php } ?>
+  <?php if(isset($_GET['accountDeleteError'])) { ?>
+      <script>deleteAccountResult('accountDeleteError'); </script>
+  <?php } ?>
 
   <?php echo getSignModal(); ?>
   <?php echo getNavBar($config_db, "navbar-dark navbar-togglable fixed-top"); ?>
