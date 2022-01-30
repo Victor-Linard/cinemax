@@ -390,13 +390,13 @@ function getFullNameFromEmail($config, $email) {
     $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = 'SELECT first_name, last_name FROM customer WHERE email=?;';
+    $sql = 'SELECT CONCAT(customer.first_name, " ", customer.last_name) AS customer FROM customer WHERE email=?;';
     $req = $DB->prepare($sql);
     $req->bindParam(1, $email);
     $req->execute();
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
-    return $data['first_name'].' '.$data['last_name'];
+    return $data['customer'];
 }
 
 function getFirstNameFromEmail($config, $email) {
@@ -440,4 +440,139 @@ function emailAlreadyExist($config, $email) {
         return true;
     else
         return false;
+}
+
+function getCustomerIdFromEmail($config, $email) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT customer_id FROM customer WHERE email=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['customer_id'];
+}
+
+function getCustomerRentals($config, $id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT
+       r.rental_id,
+       r.rental_date,
+       r.inventory_id,
+       r.customer_id,
+       r.return_date,
+       i.film_id,
+       f.title,
+       f.rental_duration,
+       f.replacement_cost,
+       r.rental_date + INTERVAL f.rental_duration DAY AS prevision_return_date,
+       DATEDIFF(r.rental_date, r.rental_date + INTERVAL f.rental_duration DAY) AS day_left_before_return,
+       DATEDIFF(r.rental_date + INTERVAL f.rental_duration DAY, NOW()) AS return_late
+FROM rental r
+    INNER JOIN inventory i on r.inventory_id = i.inventory_id
+    INNER JOIN film f on i.film_id = f.film_id
+WHERE customer_id=? 
+ORDER BY prevision_return_date;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $id);
+    $req->execute();
+
+    $str = '';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        $str .= constructRentalscard($data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], $data['return_late'], 100*intval($data['day_left_before_return'])/$data['rental_duration'], $data['replacement_cost']);
+    }
+
+    return $str;
+}
+
+function constructRentalsCard($film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $return_late, $percentage, $replacement_cost) {
+    $rental_date_txt = 'Loué le '.strToDate(explode(" ",$rental_date)[0]).', à rendre le : '.strToDate(explode(" ",$prevision_return_date)[0]);
+    $action = '<div class="dropdown">
+                      <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-end">
+                        <a href="#!" class="dropdown-item">
+                          Rendre
+                        </a>
+                        <a href="#!" class="dropdown-item">
+                          Déclarer perdu : '.$replacement_cost.'€
+                        </a>
+                      </div>
+                    </div>';
+    if (is_null($return_date) && $day_left >= 0) {
+        if ($day_left == 0)
+            $day_left_txt = '<div class="small me-2">Reste : aujourd\'hui</div>';
+        else
+            $day_left_txt = '<div class="small me-2">Reste : '.($day_left == 1 ? $day_left.' jour</div>' : $day_left.' jours</div>');
+        $progess = '<div class="col">            
+                        <div class="progress progress-sm">
+                          <div class="progress-bar" role="progressbar" style="width: '.$percentage.'%" aria-valuenow="'.$percentage.'" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>';
+    }
+    elseif (is_null($return_date) && $day_left < 0) {
+        if ($day_left == -1)
+            $day_left_txt = '<div class="small me-2">Retard : '.abs($return_late).' jour</div>';
+        else
+            $day_left_txt = '<div class="small me-2">Retard : '.abs($return_late).' jours</div>';
+        $progess = '<div class="col">            
+                        <div class="progress progress-sm">
+                          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>';
+    }
+    else {
+        $rental_date_txt = 'Loué du '.strToDate(explode(" ",$rental_date)[0]).' au '.strToDate(explode(" ",$return_date)[0]);
+        $day_left_txt = "";
+        $progess = "";
+        $action = "";
+    }
+
+    return '<div class="card shadow-light-lg mb-5">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col ms-n2">
+                    <h4 class="mb-1">
+                      '.$film_title.'
+                    </h4>            
+                    <p class="small text-muted mb-1">'.$rental_date_txt.'</p>            
+                    <div class="row align-items-center g-0">
+                      <div class="col-auto">            
+                        '.$day_left_txt.'
+                      </div>
+                      '.$progess.'
+                    </div>
+                  </div>
+                  <div class="col-auto">            
+                    '.$action.'
+                  </div>
+                </div>
+              </div>
+            </div>';
+}
+
+function strToDate($date) {
+    $day = explode("-", $date)[2];
+    $year = explode("-", $date)[0];
+    switch (explode("-", $date)[1]) {
+        case "01": return $day." janvier ".$year;
+        case "02": return $day." février ".$year;
+        case "03": return $day." mars ".$year;
+        case "04": return $day." avril ".$year;
+        case "05": return $day." mai ".$year;
+        case "06": return $day." juin ".$year;
+        case "07": return $day." juillet ".$year;
+        case "08": return $day." août ".$year;
+        case "09": return $day." septemnbre ".$year;
+        case "10": return $day." octobre ".$year;
+        case "11": return $day." novembre ".$year;
+        case "12": return $day." décembre ".$year;
+    }
 }

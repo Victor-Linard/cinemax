@@ -1,8 +1,12 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    session_start();
     require_once 'PHPScripts/config.php';
     require_once 'PHPScripts/navBar.php';
+    require_once 'PHPScripts/profileContent.php';
     $config_db = $CONFIG['database'];
-    session_start();
 
     if (!isset($_SESSION['id'])) {
         header('Location: index.php');
@@ -17,15 +21,13 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon" />
-
     <!-- Map CSS -->
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" />
-
     <!-- Libs CSS -->
     <link rel="stylesheet" href="./assets/css/libs.bundle.css" />
-
     <!-- Theme CSS -->
     <link rel="stylesheet" href="./assets/css/theme.bundle.css" />
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -67,31 +69,27 @@
         <div class="container-md">
             <div class="row align-items-center">
                 <div class="col">
-
                     <!-- Breadcrumb -->
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                <span class="text-white">
-                  Account
-                </span>
+                            <span class="text-white">
+                              Account
+                            </span>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                <span class="text-white">
-                  General
-                </span>
+                            <span class="text-white">
+                              General
+                            </span>
                         </li>
                     </ol>
-
                 </div>
                 <div class="col-auto">
-
                     <!-- Toggler -->
                     <div class="navbar-dark">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidenavCollapse" aria-controls="sidenavCollapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                     </div>
-
                 </div>
             </div> <!-- / .row -->
         </div> <!-- / .container -->
@@ -134,13 +132,13 @@
                                 </h6>
                                 <!-- List -->
                                 <ul class="card-list list text-gray-700 mb-6">
-                                    <li class="list-item">
-                                        <a class="list-link text-reset" href="#general">
+                                    <li class="list-item<?php if (isset($_GET['generale'])) echo ' active';?>">
+                                        <a class="list-link text-reset" href="profile.php?generale">
                                             General
                                         </a>
                                     </li>
-                                    <li class="list-item">
-                                        <a class="list-link text-reset" href="#security">
+                                    <li class="list-item<?php if (isset($_GET['security'])) echo ' active';?>">
+                                        <a class="list-link text-reset" href="profile.php?security">
                                             Security
                                         </a>
                                     </li>
@@ -148,19 +146,14 @@
 
                                 <!-- Heading -->
                                 <h6 class="fw-bold text-uppercase mb-3">
-                                    Billing
+                                    Movies
                                 </h6>
 
                                 <!-- List -->
                                 <ul class="card-list list text-gray-700 mb-0">
-                                    <li class="list-item">
-                                        <a class="list-link text-reset" href="billing-plans-and-payment.html">
-                                            Plans & Payment
-                                        </a>
-                                    </li>
-                                    <li class="list-item">
-                                        <a class="list-link text-reset" href="billing-users.html">
-                                            Users
+                                    <li class="list-item<?php if (isset($_GET['rentals'])) echo ' active';?>">
+                                        <a class="list-link text-reset" href="profile.php?rentals">
+                                            My rentals
                                         </a>
                                     </li>
                                 </ul>
@@ -172,90 +165,16 @@
 
                 </div>
                 <div class="col-12 col-md-9">
-
-                    <!-- Card -->
-                    <div class="card card-bleed shadow-light-lg mb-6" id="general">
-                        <div class="card-header">
-
-                            <!-- Heading -->
-                            <h4 class="mb-0">
-                                Basic Information
-                            </h4>
-
-                        </div>
-                        <div class="card-body">
-
-                            <!-- Form -->
-                            <form method="post" action="./PHPScripts/updateProfile.php?generale">
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <!-- Name -->
-                                        <div class="form-group">
-                                            <label class="form-label" for="first_name">First name</label>
-                                            <input class="form-control" id="first_name" name="first_name" type="text" placeholder="First name" value="<?php echo getFirstNameFromEmail($config_db, $_SESSION['id']); ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <!-- Name -->
-                                        <div class="form-group">
-                                            <label class="form-label" for="last_name">Last name</label>
-                                            <input class="form-control" id="last_name" name="last_name" type="text" placeholder="Last name" value="<?php echo getLastNameFromEmail($config_db, $_SESSION['id']); ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-12">
-                                        <!-- Email -->
-                                        <div class="form-group">
-                                            <label class="form-label" for="email">Email</label>
-                                            <input class="form-control" id="email" name="email" type="email" placeholder="name@address.com" value="<?php echo $_SESSION['id']; ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-auto">
-                                        <!-- Button -->
-                                        <button class="btn w-100 btn-primary" type="submit" data-bs-toggle="tooltip" data-bs-placement="top" title="Vous allez être déconnecter">
-                                            Save changes
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- Card -->
-                    <div class="card card-bleed shadow-light-lg mb-6" id="security">
-                        <div class="card-header">
-                            <!-- Heading -->
-                            <h4 class="mb-0">
-                                Security Information
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            <form method="post" action="./PHPScripts/updateProfile.php?security">
-                                <!-- Current password -->
-                                <div class="form-group">
-                                    <label class="form-label" for="currentPassword">Current Password</label>
-                                    <input class="form-control" id="currentPassword" name="currentPassword" type="password">
-                                </div>
-                                <!-- New password -->
-                                <div class="form-group">
-                                    <label class="form-label" for="newPassword">New Password</label>
-                                    <input class="form-control" id="newPassword" name="newPassword" type="password">
-                                </div>
-                                <!-- Confirm password -->
-                                <div class="form-group">
-                                    <label class="form-label" for="confirmPassword">Confirm Password</label>
-                                    <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" onkeyup="verifyConfPassword();">
-                                    <div id="newPasswordIndicator"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-auto">
-                                        <!-- Button -->
-                                        <button class="btn w-100 btn-primary" type="submit">
-                                            Update Password
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <?php
+                        if (isset($_GET['generale']))
+                            echo $generale;
+                        elseif (isset($_GET['security']))
+                            echo $security;
+                        elseif (isset($_GET['rentals']))
+                            echo $rentals;
+                        else
+                            echo $default;
+                    ?>
 
                     <!-- Text -->
                     <p class="text-center mb-0">
