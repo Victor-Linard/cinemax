@@ -57,6 +57,7 @@ if (isset($_POST))
     <!-- Theme CSS -->
     <link rel="stylesheet" href="./assets/css/theme.bundle.css"/>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="JSScripts/launchSwal.js"></script>
 

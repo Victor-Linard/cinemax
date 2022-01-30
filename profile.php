@@ -146,14 +146,19 @@
 
                                 <!-- Heading -->
                                 <h6 class="fw-bold text-uppercase mb-3">
-                                    Movies
+                                    My rentals
                                 </h6>
 
                                 <!-- List -->
                                 <ul class="card-list list text-gray-700 mb-0">
-                                    <li class="list-item<?php if (isset($_GET['rentals'])) echo ' active';?>">
-                                        <a class="list-link text-reset" href="profile.php?rentals">
-                                            My rentals
+                                    <li class="list-item<?php if (isset($_GET['current_rentals'])) echo ' active';?>">
+                                        <a class="list-link text-reset" href="profile.php?current_rentals">
+                                            Current
+                                        </a>
+                                    </li>
+                                    <li class="list-item<?php if (isset($_GET['passed_rentals'])) echo ' active';?>">
+                                        <a class="list-link text-reset" href="profile.php?passed_rentals">
+                                            Passed
                                         </a>
                                     </li>
                                 </ul>
@@ -170,8 +175,10 @@
                             echo $generale;
                         elseif (isset($_GET['security']))
                             echo $security;
-                        elseif (isset($_GET['rentals']))
-                            echo $rentals;
+                        elseif (isset($_GET['current_rentals']))
+                            echo $current_rentals;
+                        elseif (isset($_GET['passed_rentals']))
+                            echo $passed_rentals;
                         else
                             echo $default;
                     ?>

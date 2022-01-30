@@ -456,7 +456,7 @@ function getCustomerIdFromEmail($config, $email) {
     return $data['customer_id'];
 }
 
-function getCustomerRentals($config, $id) {
+function getCustomerRentals($config, $id, $returned, $orderBy) {
     $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -472,26 +472,25 @@ function getCustomerRentals($config, $id) {
        f.rental_duration,
        f.replacement_cost,
        r.rental_date + INTERVAL f.rental_duration DAY AS prevision_return_date,
-       DATEDIFF(r.rental_date, r.rental_date + INTERVAL f.rental_duration DAY) AS day_left_before_return,
-       DATEDIFF(r.rental_date + INTERVAL f.rental_duration DAY, NOW()) AS return_late
+       DATEDIFF(r.rental_date + INTERVAL f.rental_duration DAY, NOW()) AS day_left_before_return
 FROM rental r
     INNER JOIN inventory i on r.inventory_id = i.inventory_id
     INNER JOIN film f on i.film_id = f.film_id
-WHERE customer_id=? 
-ORDER BY prevision_return_date;';
+WHERE customer_id=?
+'.$returned.$orderBy.';';
     $req = $DB->prepare($sql);
     $req->bindParam(1, $id);
     $req->execute();
 
     $str = '';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        $str .= constructRentalscard($data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], $data['return_late'], 100*intval($data['day_left_before_return'])/$data['rental_duration'], $data['replacement_cost']);
+        $str .= constructRentalscard($data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], 100-(100*intval($data['day_left_before_return'])/$data['rental_duration']), $data['replacement_cost']);
     }
 
     return $str;
 }
 
-function constructRentalsCard($film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $return_late, $percentage, $replacement_cost) {
+function constructRentalsCard($film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $percentage, $replacement_cost) {
     $rental_date_txt = 'Loué le '.strToDate(explode(" ",$rental_date)[0]).', à rendre le : '.strToDate(explode(" ",$prevision_return_date)[0]);
     $action = '<div class="dropdown">
                       <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -519,9 +518,9 @@ function constructRentalsCard($film_title, $rental_date, $return_date, $previsio
     }
     elseif (is_null($return_date) && $day_left < 0) {
         if ($day_left == -1)
-            $day_left_txt = '<div class="small me-2">Retard : '.abs($return_late).' jour</div>';
+            $day_left_txt = '<div class="small me-2">Retard : '.abs($day_left).' jour</div>';
         else
-            $day_left_txt = '<div class="small me-2">Retard : '.abs($return_late).' jours</div>';
+            $day_left_txt = '<div class="small me-2">Retard : '.abs($day_left).' jours</div>';
         $progess = '<div class="col">            
                         <div class="progress progress-sm">
                           <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -575,4 +574,34 @@ function strToDate($date) {
         case "11": return $day." novembre ".$year;
         case "12": return $day." décembre ".$year;
     }
+    return "No date";
+}
+
+function getInventoryId($config, $film, $store) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT inventory_id FROM inventory WHERE film_id=? AND store_id=? AND inventory_in_stock(inventory_id);';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $film);
+    $req->bindParam(2, $store);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['inventory_id'];
+}
+
+function getStoreManager($config, $storeid) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT manager_staff_id FROM store WHERE store_id=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $storeid);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['manager_staff_id'];
 }

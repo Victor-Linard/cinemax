@@ -129,11 +129,29 @@ function confirmRental(storeid, filmid, storeAdress, filmTitle) {
         cancelButtonText: 'Annuler'
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire(
-                'Merci !',
-                'Le film vous est réservé pour une durée de X jours.',
-                'success'
-            )
+            $.ajax({
+                url: "./PHPScripts/rentFilm.php",
+                method: "POST",
+                data: {
+                    "storeid" : storeid,
+                    "filmid" : filmid
+                },
+                async: false,
+                success: function (data) {
+                    Swal.fire(
+                        'Merci !',
+                        'Le film vous est réservé, vous n\'avez plus qu\'a le récupérer.',
+                        'success'
+                    )
+                },
+                error: function (data) {
+                    Swal.fire(
+                        'Étrange !',
+                        'Une erreur s\'est produite pendant la réservation veuillez réessayer.',
+                        'error'
+                    )
+                }
+            });
         }
     })
 }
