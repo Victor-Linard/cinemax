@@ -484,27 +484,23 @@ WHERE customer_id=?
 
     $str = '';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        $str .= constructRentalscard($data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], 100-(100*intval($data['day_left_before_return'])/$data['rental_duration']), $data['replacement_cost']);
+        $str .= constructRentalscard($data['inventory_id'], $data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], 100-(100*intval($data['day_left_before_return'])/$data['rental_duration']), $data['replacement_cost']);
     }
-
+    if (strlen($str) == 0) {
+        $str = '<div class="card card-bleed shadow-light-lg">
+              <div class="card-body">
+                Aucun film à afficher.
+              </div>
+            </div>';
+    }
     return $str;
 }
 
-function constructRentalsCard($film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $percentage, $replacement_cost) {
+function constructRentalsCard($inventoryId, $film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $percentage, $replacement_cost) {
     $rental_date_txt = 'Loué le '.strToDate(explode(" ",$rental_date)[0]).', à rendre le : '.strToDate(explode(" ",$prevision_return_date)[0]);
-    $action = '<div class="dropdown">
-                      <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Action
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-end">
-                        <a href="#!" class="dropdown-item">
-                          Rendre
-                        </a>
-                        <a href="#!" class="dropdown-item">
-                          Déclarer perdu : '.$replacement_cost.'€
-                        </a>
-                      </div>
-                    </div>';
+    $action = '<a href="./PHPScripts/returnFilm.php?inventoryId='.$inventoryId.'" class="btn btn-rounded-circle btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Rendre">
+                  <i class="fe fe-inbox"></i>
+                </a>';
     if (is_null($return_date) && $day_left >= 0) {
         if ($day_left == 0)
             $day_left_txt = '<div class="small me-2">Reste : aujourd\'hui</div>';

@@ -63,6 +63,12 @@
     <?php if(isset($_GET['changePasswordError'])) { ?>
         <script>accountModificationResult('changePasswordError'); </script>
     <?php } ?>
+    <?php if(isset($_GET['returnFilmSuccess'])) { ?>
+        <script>returnFilm('returnFilmSuccess'); </script>
+    <?php } ?>
+    <?php if(isset($_GET['returnFilmError'])) { ?>
+        <script>returnFilm('returnFilmError'); </script>
+    <?php } ?>
     <?php echo getNavBar($config_db, "navbar-light bg-light border-bottom"); ?>
     <!-- BREADCRUMB -->
     <nav class="bg-dark d-md-none">

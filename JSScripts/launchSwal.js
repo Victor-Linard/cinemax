@@ -206,3 +206,33 @@ function deleteAccountResult(result) {
         window.location = window.location.href.split('?')[0];
     });
 }
+
+function returnFilm(result) {
+    let title = '';
+    let text  = '';
+    let icon  = '';
+
+    switch (result) {
+        case 'returnFilmSuccess':
+            title = 'Merci !';
+            text = 'Le film à bien été rendu.';
+            icon = 'success';
+            break;
+        case 'returnFilmError':
+            title = 'Oops ! 😕';
+            text = 'Une erreur est survenue lors du rendu de votre film.';
+            icon = 'error';
+            break;
+    }
+
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+    })
+        .then((ok) => {
+            window.location = window.location.href.split('?')[0] + "?current_rentals";
+        });
+}
+
+
