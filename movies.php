@@ -24,6 +24,7 @@ if(isset($_POST['submitSignIn'])) {
     if ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         if (password_verify($_POST['password'], $data['password'])) {
             $_SESSION['id'] = $_POST['email'];
+            updateLastConnection($config_db,  $_POST['email']);
             header('Location: movies.php');
         }
         else {

@@ -3,7 +3,7 @@ function getNavBar($config, $class) {
     require_once 'functions.inc.php';
     $name = 'Mon compte';
     if (isset($_SESSION['id'])) {
-        $name = getFullNameFromEmail($config, $_SESSION['id']);
+        $name = getFullNameFromEmail($config, $_SESSION['id'], isStaff($config, $_SESSION['id']));
         if (isStaff($config, $_SESSION['id']))
             $dropdown = '<li class="dropdown-item dropend">
                             <a class="dropdown-item" href="./admin.php">

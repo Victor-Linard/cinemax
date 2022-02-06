@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once 'PHPScripts/config.php';
 require_once 'PHPScripts/navBar.php';
+require_once 'PHPScripts/functions.inc.php';
 require_once 'PHPScripts/signInUpModal.php';
 $config_db = $CONFIG['database'];
 session_start();
@@ -23,6 +24,7 @@ if(isset($_POST['submitSignIn'])) {
     if ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         if (password_verify($_POST['password'], $data['password'])) {
             $_SESSION['id'] = $_POST['email'];
+            updateLastConnection($config_db,  $_POST['email']);
             header('Location: index.php');
         }
         else {

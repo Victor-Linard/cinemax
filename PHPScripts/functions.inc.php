@@ -385,18 +385,21 @@ function get10BestSellers($config) {
     return substr($str, 0, -1).']}';
 }
 
-function getFullNameFromEmail($config, $email) {
+function getFullNameFromEmail($config, $email, $isStaff) {
     $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = 'SELECT CONCAT(customer.first_name, " ", customer.last_name) AS customer FROM customer WHERE email=?;';
+    if (!$isStaff)
+        $sql = 'SELECT CONCAT(customer.first_name, " ", customer.last_name) AS name FROM customer WHERE email=?;';
+    else
+        $sql = 'SELECT CONCAT(staff.first_name, " ", staff.last_name) AS name FROM staff WHERE email=?;';
     $req = $DB->prepare($sql);
     $req->bindParam(1, $email);
     $req->execute();
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
-    return $data['customer'];
+    return $data['name'];
 }
 
 function getFirstNameFromEmail($config, $email) {
@@ -600,4 +603,15 @@ function getStoreManager($config, $storeid) {
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
     return $data['manager_staff_id'];
+}
+
+function updateLastConnection($config, $email) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'UPDATE customer SET last_update = NOW() WHERE email = ?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $email);
+    $req->execute();
 }

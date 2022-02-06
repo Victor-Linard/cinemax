@@ -138,11 +138,19 @@ function confirmRental(storeid, filmid, storeAdress, filmTitle) {
                 },
                 async: false,
                 success: function (data) {
-                    Swal.fire(
-                        'Merci !',
-                        'Le film vous est réservé, vous n\'avez plus qu\'a le récupérer.',
-                        'success'
-                    )
+                    console.log(data);
+                    if (data == 'error')
+                        Swal.fire(
+                            'Étrange !',
+                            'Une erreur s\'est produite pendant la réservation veuillez réessayer.',
+                            'error'
+                        )
+                    else
+                        Swal.fire(
+                            'Merci !',
+                            'Le film vous est réservé, vous n\'avez plus qu\'a le récupérer.',
+                            'success'
+                        )
                 },
                 error: function (data) {
                     Swal.fire(
