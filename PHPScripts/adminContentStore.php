@@ -35,9 +35,9 @@ function constructStoreDashBoard($config_db, $store=null) {
                     </div>
                 </div> <!-- / .header -->
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 col-xl">
-                            <div class="card">
+                    <div class="row kanban-container">
+                        <div class="col-12 col-lg-6 col-xl kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-body">
                                     <div class="row align-items-center gx-0">
                                         <div class="col">
@@ -55,8 +55,8 @@ function constructStoreDashBoard($config_db, $store=null) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-xl">
-                            <div class="card">
+                        <div class="col-12 col-lg-6 col-xl kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-body">
                                     <div class="row align-items-center gx-0">
                                         <div class="col">
@@ -74,8 +74,8 @@ function constructStoreDashBoard($config_db, $store=null) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-xl">
-                            <div class="card">
+                        <div class="col-12 col-lg-6 col-xl kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-body">
                                     <div class="row align-items-center gx-0">
                                         <div class="col">
@@ -93,8 +93,8 @@ function constructStoreDashBoard($config_db, $store=null) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-xl">
-                            <div class="card">
+                        <div class="col-12 col-lg-6 col-xl kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-body">
                                     <div class="row align-items-center gx-0">
                                         <div class="col">
@@ -113,18 +113,15 @@ function constructStoreDashBoard($config_db, $store=null) {
                             </div>
                         </div>
                     </div> <!-- / .row -->
-                    <div class="row">
-                        <div class="col-12 col-xl-8">
-                            <!-- Convertions -->
-                            <div class="card">
+                    <div class="row kanban-container">
+                        <div class="col-12 col-xl-8 kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-header">
-                                    <!-- Title -->
                                     <h4 class="card-header-title">
                                         Locations
                                     </h4>        
                                 </div>
                                 <div class="card-body">
-                                    <!-- Chart -->
                                     <div class="chart">
                                         <canvas id="rentalChart" class="chart-canvas"></canvas>
                                     </div>
@@ -158,8 +155,8 @@ function constructStoreDashBoard($config_db, $store=null) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-xl-4">
-                            <div class="card">
+                        <div class="col-12 col-xl-4 kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-header">
                                     <h4 class="card-header-title">
                                         Stock
@@ -213,8 +210,8 @@ function constructStoreDashBoard($config_db, $store=null) {
                         </div>
                     </div> <!-- / .row -->
                     <div class="row">
-                        <div class="col-12">
-                            <div class="card">
+                        <div class="col-12 kanban-category">
+                            <div class="card kanban-item">
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">

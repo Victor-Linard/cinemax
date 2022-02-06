@@ -30,11 +30,15 @@ if (!isset($_SESSION['id'])) {
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="./assets_dashkit/css/theme.bundle.css" />
+
     <!-- Vendor JS -->
     <script src="./assets_dashkit/js/vendor.bundle.js"></script>
 
     <!-- Theme JS -->
     <script src="./assets_dashkit/js/theme.bundle.js"></script>
+
+    <script src="./node_modules/@shopify/draggable/lib/draggable.bundle.js"></script>
+
     <!-- Title -->
     <title>Cinemax</title>
 </head>
@@ -93,7 +97,7 @@ if (!isset($_SESSION['id'])) {
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="sidebarDashboards">
-                            <i class="fe fe-layout"></i> Dashboards
+                            <i class="fe fe-grid"></i> Dashboards
                         </a>
                         <div class="collapse show" id="sidebarDashboards">
                             <ul class="nav nav-sm flex-column">
@@ -147,6 +151,6 @@ if (!isset($_SESSION['id'])) {
     <!-- Map JS -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 
-
+    <script src="./JSScripts/kanban.js"></script>
 </body>
 </html>
