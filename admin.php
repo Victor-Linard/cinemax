@@ -49,8 +49,8 @@ if (!isset($_SESSION['id'])) {
             </button>
 
             <!-- Brand -->
-            <a class="navbar-brand" href="./index.html">
-                <img src="./assets_dashkit/img/logo.svg" class="navbar-brand-img mx-auto" alt="...">
+            <a class="navbar-brand" href="./admin.php?allStore">
+                <h2>Cinemax</h2>
             </a>
 
             <!-- User (xs) -->
@@ -61,17 +61,15 @@ if (!isset($_SESSION['id'])) {
 
                     <!-- Toggle -->
                     <a href="#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="avatar avatar-sm avatar-online">
-                            <img src="./assets_dashkit/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle" alt="...">
+                        <div class="avatar avatar-sm">
+                            <i class="fs-2 fe fe-user lar"></i>
                         </div>
                     </a>
 
                     <!-- Menu -->
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarIcon">
-                        <a href="./profile-posts.html" class="dropdown-item">Profile</a>
-                        <a href="./account-general.html" class="dropdown-item">Settings</a>
-                        <hr class="dropdown-divider">
-                        <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                        <a href="./index.php" class="dropdown-item">Cinemax</a>
+                        <a href="./PHPScripts/logout.php" class="dropdown-item">Déconnexion</a>
                     </div>
 
                 </div>
