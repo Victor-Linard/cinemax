@@ -12,16 +12,16 @@ if(isset($_POST['submitSignIn'])) {
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if (isset($_POST['administrateur']))
-        $sql = 'SELECT password FROM staff WHERE email=?;';
+        $sql = 'SELECT password, active FROM staff WHERE email=?;';
     else
-        $sql = 'SELECT password FROM customer WHERE email=?;';
+        $sql = 'SELECT password, active FROM customer WHERE email=?;';
     $req = $DB->prepare($sql);
     $req->bindParam(1, $_POST['email']);
     $req->execute();
     if ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        if (password_verify($_POST['password'], $data['password'])) {
+        if (password_verify($_POST['password'], $data['password']) && $data['active'] == 1) {
             $_SESSION['id'] = $_POST['email'];
-            updateLastConnection($config_db,  $_POST['email']);
+            updateLastConnection($config_db, isset($_POST['administrateur']) ? 'staff' : 'customer', $_POST['email']);
             header('Location: index.php');
         }
         else {

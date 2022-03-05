@@ -239,3 +239,28 @@ function constructBestClientTable($config, $store=null) {
     }
     return $table.'</tbody></table></div>';
 }
+
+function constructUsersTable($config, $table) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT * FROM '.$table.';';
+    $req = $DB->prepare($sql);
+    $req->execute();
+    $str = '';
+    while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        $str .= '<tr>
+                <td class="users-number">'.$data[$table == 'staff' ? 'staff_id' : 'customer_id'].'</td>
+                <td class="users-firstname">'.$data['first_name'].'</td>
+                <td class="users-lastname">'.$data['last_name'].'</td>
+                <td class="users-email">'.$data['email'].'</td>
+                <td class="users-lastupdate">'.$data['last_update'].'</td>
+                <td class="text-end">
+                    <a href="#"><span class="badge bg-info-soft">Modifier</span></a>
+                    <a href="admin.php?'.$table.'&desactivateUser"><span class="badge bg-danger-soft">Désactiver</span></a>
+                </td>
+            </tr>';
+    }
+    return $str;
+}

@@ -40,10 +40,18 @@ if (!isset($_SESSION['id'])) {
 
     <script src="./node_modules/@shopify/draggable/lib/draggable.bundle.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./JSScripts/launchSwal.js"></script>
+
     <!-- Title -->
     <title>Cinemax</title>
 </head>
 <body>
+    <!-- START SWAL TEST -->
+    <?php if(isset($_GET['desactivateUser'])) { ?>
+        <script>admin('desactivateUser'); </script>
+    <?php } ?>
     <!-- NAVIGATION -->
     <nav class="navbar navbar-vertical fixed-start navbar-expand-md navbar-light" id="sidebar">
         <div class="container-fluid">
@@ -188,14 +196,15 @@ if (!isset($_SESSION['id'])) {
     <!-- MAIN CONTENT -->
     <div class="main-content">
     <?php
-    if (isset($_GET['customer']))
-        echo $customer;
+    if (isset($_GET['customer']) || isset($_GET['staff']))
+        echo $users;
     if (isset($_GET['allStore']))
         echo constructStoreDashBoard($config_db);
     foreach (getStoreList($config_db) as $store)
         if (isset($_GET['store_'.$store]))
             echo constructStoreDashBoard($config_db, $store);
     ?>
+
     </div><!-- / .main-content -->
 
     <!-- JAVASCRIPT -->
@@ -203,5 +212,7 @@ if (!isset($_SESSION['id'])) {
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 
     <script src="./JSScripts/kanban.js"></script>
+
+    <script src="./JSScripts/list.js"></script>
 </body>
 </html>

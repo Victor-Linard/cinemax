@@ -243,4 +243,56 @@ function returnFilm(result) {
         });
 }
 
+function admin(result) {
+    let title = '';
+    let text  = '';
+    let icon  = '';
+
+    switch (result) {
+        case 'desactivateUser':
+            title = 'Confirmer';
+            text = 'Voulez-vous vraiment désactiver cet utilisateur ?';
+            icon = 'question';
+            break;
+    }
+
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "./PHPScripts/",
+                method: "POST",
+                data: {
+                },
+                async: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data == 'error')
+                        Swal.fire(
+                            'Étrange !',
+                            'Une erreur s\'est produite pendant la désactication veuillez réessayer.',
+                            'error'
+                        )
+                    else
+                        window.location = window.location.href.split('?')[0] + "?current_rentals";
+                },
+                error: function (data) {
+                    Swal.fire(
+                        'Étrange !',
+                        'Une erreur s\'est produite pendant la désactivation veuillez réessayer.',
+                        'error'
+                    )
+                }
+            });
+        }
+    })
+}
 

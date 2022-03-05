@@ -605,12 +605,12 @@ function getStoreManager($config, $storeid) {
     return $data['manager_staff_id'];
 }
 
-function updateLastConnection($config, $email) {
+function updateLastConnection($config, $table, $email) {
     $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = 'UPDATE customer SET last_update = NOW() WHERE email = ?;';
+    $sql = 'UPDATE '.$table.' SET last_update = NOW() WHERE email = ?;';
     $req = $DB->prepare($sql);
     $req->bindParam(1, $email);
     $req->execute();

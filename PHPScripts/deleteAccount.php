@@ -9,7 +9,7 @@ if (isset($_SESSION['id'])) {
     $DB = new PDO('mysql:host=' . $config_db['db_address'] . ';dbname=' . $config_db['db_name'], $config_db['db_user'], $config_db['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = 'DELETE FROM customer WHERE email=?;';
+    $sql = 'UPDATE customer SET active=0 WHERE email=?;';
     $req = $DB->prepare($sql);
     $req->bindParam(1, $_SESSION['id']);
     $req->execute();

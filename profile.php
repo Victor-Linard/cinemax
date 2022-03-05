@@ -191,7 +191,7 @@
 
                     <!-- Text -->
                     <p class="text-center mb-0">
-                        <small class="text-muted">If you no longer want to use Cinemax, you can <a style="cursor: pointer;" class="text-danger" onclick="confirmDeleteAccount(<?php echo '\''.$_SESSION['id'].'\''; ?>);">delete your account</a>.</small>
+                        <small class="text-muted">If you no longer want to use Cinemax, you can <a style="cursor: pointer;" class="text-danger" onclick="confirmDeleteAccount(<?php echo '\''.$_SESSION['id'].'\''; ?>);">desactivate your account</a>.</small>
                     </p>
 
                 </div>
