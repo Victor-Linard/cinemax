@@ -16,52 +16,47 @@ function getSignModal() {
 
                               <!-- Heading -->
                               <h2 class="mb-0 fw-bold text-center" id="modalSignupHorizontalTitle">
-                                  Sign Up
+                                  Créer un compte
                               </h2>
-
-                              <!-- Text -->
-                              <p class="mb-6 text-center text-muted">
-                                  Simplify your workflow in minutes.
-                              </p>
 
                               <!-- Form -->
                               <form method="post" action="./PHPScripts/createAccount.php" class="mb-6">
                                 <div class="row g-3">
                                   <div class="col-12 col-md-6 mb-3">
-                                    <input name="firstName" type="text" class="form-control" placeholder="First name" required="">
+                                    <input name="firstName" type="text" class="form-control" placeholder="Prénom" required="">
                                   </div>
                                   <div class="col-12 col-md-6 mb-3">
-                                    <input name="lastName" type="text" class="form-control" placeholder="Last name" required="">
+                                    <input name="lastName" type="text" class="form-control" placeholder="Nom" required="">
                                   </div>
                                 </div>
                                   <!-- Email -->
                                   <div class="form-group">
                                       <label class="visually-hidden" for="modalSignupHorizontalEmail">
-                                          Your email
+                                          Email
                                       </label>
                                       <input name="email" type="email" class="form-control" id="modalSignupHorizontalEmail"
-                                             placeholder="Your email">
+                                             placeholder="Email">
                                   </div>
 
                                   <!-- Password -->
                                   <div class="form-group mb-5">
                                       <label class="visually-hidden" for="modalSignupHorizontalPassword">
-                                          Create a password
+                                           Mot de passe
                                       </label>
                                       <input name="password" type="password" class="form-control" id="modalSignupHorizontalPassword"
-                                             placeholder="Create a password">
+                                             placeholder="Mot de passe">
                                   </div>
 
                                   <!-- Submit -->
                                   <button name="submitSignUp" class="btn w-100 btn-primary" type="submit">
-                                      Sign up
+                                      Inscription
                                   </button>
 
                               </form>
 
                               <!-- Text -->
                               <p class="mb-0 fs-sm text-center text-muted">
-                                  Already have an account? <a class="dropdown-item" data-bs-toggle="modal" href="#modalSigninHorizontal">Sign in</a>
+                                  Vous avez déjà un compte ? <a class="dropdown-item" data-bs-toggle="modal" href="#modalSigninHorizontal">Connectez-vous</a>
                               </p>
 
                           </div>
@@ -89,13 +84,8 @@ function getSignModal() {
 
                               <!-- Heading -->
                               <h2 class="mb-0 fw-bold text-center" id="modalSigninHorizontalTitle">
-                                  Sign In
+                                  Connexion
                               </h2>
-
-                              <!-- Text -->
-                              <p class="mb-6 text-center text-muted">
-                                  Simplify your workflow in minutes.
-                              </p>
 
                               <!-- Form -->
                               <form method="post" action="index.php" class="mb-6">
@@ -103,19 +93,19 @@ function getSignModal() {
                                   <!-- Email -->
                                   <div class="form-group">
                                       <label class="visually-hidden" for="modalSigninHorizontalEmail">
-                                          Your email
+                                          Email
                                       </label>
                                       <input name="email" type="email" class="form-control" id="modalSigninHorizontalEmail"
-                                             placeholder="Your email">
+                                             placeholder="Votre email">
                                   </div>
 
                                   <!-- Password -->
                                   <div class="form-group mb-5">
                                       <label class="visually-hidden" for="modalSigninHorizontalPassword">
-                                          Enter your password
+                                          Mot de passe
                                       </label>
                                       <input name="password" type="password" class="form-control" id="modalSigninHorizontalPassword"
-                                             placeholder="Enter your password">
+                                             placeholder="Votre mot de passe">
                                   </div>
                                   
                                   <div class="form-group mb-5">
@@ -127,14 +117,14 @@ function getSignModal() {
 
                                   <!-- Submit -->
                                   <button name="submitSignIn" class="btn w-100 btn-primary" type="submit">
-                                      Sign in
+                                      Connexion
                                   </button>
 
                               </form>
 
                               <!-- Text -->
                               <p class="mb-0 fs-sm text-center text-muted">
-                                  Already have an account? <a class="dropdown-item" data-bs-toggle="modal" href="#modalSignupHorizontal">Sign up</a>
+                                  Vous n\'avez pas encore de compte ? <a class="dropdown-item" data-bs-toggle="modal" href="#modalSignupHorizontal">Inscrivez-vous</a>
                               </p>
 
                           </div>

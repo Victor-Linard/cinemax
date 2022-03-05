@@ -1,14 +1,14 @@
 const filmModal = document.getElementById('filmDetailsModal');
 filmModal.addEventListener('show.bs.modal', function (event) {
     const card = event.relatedTarget;
-    const filmid = card.getAttribute('data-bs-filmid')
-    const title = card.getAttribute('data-bs-title')
+    const filmid = card.getAttribute('data-bs-filmid');
+    const title = card.getAttribute('data-bs-title');
     const category = card.getAttribute('data-bs-category');
     const rating = card.getAttribute('data-bs-rating');
     const price = card.getAttribute('data-bs-price');
     const description = card.getAttribute('data-bs-description');
-    const length = card.getAttribute('data-bs-length')
-    const actors = card.getAttribute('data-bs-actors')
+    const length = card.getAttribute('data-bs-length');
+    const actors = card.getAttribute('data-bs-actors');
     const rentalDuration = card.getAttribute('data-bs-rentalDuration');
     const language = card.getAttribute('data-bs-language');
     const bonus = card.getAttribute('data-bs-bonus');
@@ -26,7 +26,6 @@ filmModal.addEventListener('show.bs.modal', function (event) {
     const modalFilmLanguage = filmModal.querySelector('#modal-filmLanguage');
     const modalFilmBonus = filmModal.querySelector('#modal-filmBonus');
     const modalFilmDisponibility = filmModal.querySelector('#modal-filmDisponibility');
-
 
     modalFilmTitle.textContent = title;
     modalFilmCategory.textContent = category;
