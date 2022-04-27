@@ -164,6 +164,8 @@ if (!isset($_SESSION['id'])) {
     <?php
     if (isset($_GET['customer']) || isset($_GET['staff']))
         echo $users;
+    if (isset($_GET['consultUser']))
+        echo $userDetails;
     if (isset($_GET['allStore']))
         echo constructStoreDashBoard($config_db);
     foreach (getStoreList($config_db) as $store)

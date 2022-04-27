@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 require_once './PHPScripts/config.php';
 require_once './PHPScripts/functions.inc.php';
 require_once './PHPScripts/adminFunctions.inc.php';
@@ -22,11 +19,6 @@ $users = '<div class="header">
                                 </h6>
                                 <h1 class="header-title">'.$title.'</h1>
                             </div>
-                            <div class="col-auto">
-                                <a href="#!" class="btn btn-primary lift">
-                                  Ajouter
-                                </a>
-                          </div>
                         </div> <!-- / .row -->
                     </div> <!-- / .header-body -->
                 </div>
@@ -83,3 +75,28 @@ $users = '<div class="header">
                     </div>
                 </div>     
             </div>';
+
+if (isset($_GET['userId'])) {
+    $userId = intval($_GET['userId']);
+    $userEmail = getCustomerEmailFromId($config_db, $userId);
+    $userDetails = '<div class="header">
+                <div class="container-fluid">
+                    <div class="header-body">
+                        <div class="row align-items-end">
+                            <div class="col">
+                                <h6 class="header-pretitle">
+                                    Informations utilisateur
+                                </h6>
+                                <h1 class="header-title">'.getFullNameFromEmail($config_db, $userEmail, false).'</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">';
+    $userDetails .= getCustomerRentals($config_db, $userId, ' AND r.return_date IS NULL', ' ORDER BY day_left_before_return ASC', true);
+    $userDetails .= getCustomerRentals($config_db, $userId, ' AND r.return_date IS NOT NULL', ' ORDER BY r.rental_date DESC', false);
+
+    $userDetails .= '</div></div>';
+}

@@ -94,6 +94,6 @@ $security = '<div class="card card-bleed shadow-light-lg mb-6" id="security">
                 </div>
             </div>';
 
-$current_rentals = getCustomerRentals($config_db, getCustomerIdFromEmail($config_db, $_SESSION['id']), ' AND r.return_date IS NULL', ' ORDER BY day_left_before_return ASC');
+$current_rentals = getCustomerRentals($config_db, getCustomerIdFromEmail($config_db, $_SESSION['id']), ' AND r.return_date IS NULL', ' ORDER BY day_left_before_return ASC', false);
 
-$passed_rentals = getCustomerRentals($config_db, getCustomerIdFromEmail($config_db, $_SESSION['id']), ' AND r.return_date IS NOT NULL', ' ORDER BY r.rental_date DESC');
+$passed_rentals = getCustomerRentals($config_db, getCustomerIdFromEmail($config_db, $_SESSION['id']), ' AND r.return_date IS NOT NULL', ' ORDER BY r.rental_date DESC', false);

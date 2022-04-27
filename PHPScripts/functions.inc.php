@@ -459,7 +459,21 @@ function getCustomerIdFromEmail($config, $email) {
     return $data['customer_id'];
 }
 
-function getCustomerRentals($config, $id, $returned, $orderBy) {
+function getCustomerEmailFromId($config, $id) {
+    $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
+    $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
+    $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = 'SELECT email FROM customer WHERE customer_id=?;';
+    $req = $DB->prepare($sql);
+    $req->bindParam(1, $id);
+    $req->execute();
+    $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    return $data['email'];
+}
+
+function getCustomerRentals($config, $id, $returned, $orderBy, $isStaff) {
     $db_options = array( PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     $DB = new PDO('mysql:host='. $config['db_address'] .';dbname='.$config['db_name'], $config['db_user'], $config['db_password'], $db_options);
     $DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -487,23 +501,24 @@ WHERE customer_id=?
 
     $str = '';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-        $str .= constructRentalscard($data['inventory_id'], $data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], 100-(100*intval($data['day_left_before_return'])/$data['rental_duration']), $data['replacement_cost']);
+        $str .= constructRentalscard($data['inventory_id'], $data['title'], $data['rental_date'], $data['return_date'], $data['prevision_return_date'], $data['day_left_before_return'], 100-(100*intval($data['day_left_before_return'])/$data['rental_duration']), $data['replacement_cost'], $isStaff);
     }
     if (strlen($str) == 0) {
         $str = '<div class="card card-bleed shadow-light-lg">
               <div class="card-body">
-                Aucun film à afficher.
+                Aucun film loué dans le passé ou en ce moment.
               </div>
             </div>';
     }
     return $str;
 }
 
-function constructRentalsCard($inventoryId, $film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $percentage, $replacement_cost) {
+function constructRentalsCard($inventoryId, $film_title, $rental_date, $return_date, $prevision_return_date, $day_left, $percentage, $replacement_cost, $isStaff) {
     $rental_date_txt = 'Loué le '.strToDate(explode(" ",$rental_date)[0]).', à rendre le : '.strToDate(explode(" ",$prevision_return_date)[0]);
-    $action = '<a href="./PHPScripts/returnFilm.php?inventoryId='.$inventoryId.'" class="btn btn-rounded-circle btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Rendre">
-                  <i class="fe fe-inbox"></i>
-                </a>';
+    if (!$isStaff)
+        $action = '<a href="./PHPScripts/returnFilm.php?inventoryId='.$inventoryId.'" class="btn btn-rounded-circle btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Rendre"><i class="fe fe-inbox"></i></a>';
+    else
+        $action = '';
     if (is_null($return_date) && $day_left >= 0) {
         if ($day_left == 0)
             $day_left_txt = '<div class="small me-2">Reste : aujourd\'hui</div>';

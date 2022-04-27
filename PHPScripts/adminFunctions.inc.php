@@ -251,6 +251,8 @@ function constructUsersTable($config, $table) {
     $str = '';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
         $id = $data[$table == 'staff' ? 'staff_id' : 'customer_id'];
+        $action = $table == 'customer' ? '<a href="admin.php?consultUser&userId='.$id.'"><span class="badge bg-info-soft">Consulter</span></a>' : '';
+
         if ($data['active'] == 1)
             $desactivateUser = '<a href="admin.php?'.$table.'&desactivateUser&'.$id.'"><span class="badge bg-danger-soft">Désactiver</span></a>';
         else
@@ -264,6 +266,7 @@ function constructUsersTable($config, $table) {
                 <td class="users-lastupdate">'.$data['last_update'].'</td>
                 <td class="text-end">
                     '.$desactivateUser.'
+                    '.$action.'
                 </td>
             </tr>';
     }
