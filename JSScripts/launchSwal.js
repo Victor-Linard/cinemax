@@ -254,6 +254,11 @@ function admin(result) {
             text = 'Voulez-vous vraiment désactiver cet utilisateur ?';
             icon = 'question';
             break;
+        case 'activateUser':
+            title = 'Confirmer';
+            text = 'Voulez-vous vraiment activer cet utilisateur ?';
+            icon = 'question';
+            break;
     }
 
     Swal.fire({
@@ -265,31 +270,34 @@ function admin(result) {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Confirmer',
         cancelButtonText: 'Annuler'
-    }).then((result) => {
-        if (result.isConfirmed) {
+    }).then((confirmation) => {
+        if (confirmation.isConfirmed) {
             $.ajax({
-                url: "./PHPScripts/",
+                url: "./PHPScripts/toggleActivationUser.php",
                 method: "POST",
                 data: {
+                    'userToToggle': window.location.href.split('&')[2],
+                    'action': result,
+                    'table': window.location.href.split('?')[1].split('&')[0]
                 },
                 async: false,
                 success: function (data) {
-                    console.log(data);
                     if (data == 'error')
                         Swal.fire(
                             'Étrange !',
-                            'Une erreur s\'est produite pendant la désactication veuillez réessayer.',
+                            'Une erreur s\'est produite veuillez réessayer.'+data,
                             'error'
-                        )
-                    else
-                        window.location = window.location.href.split('?')[0] + "?current_rentals";
+                        );
+                    else {
+                        window.location = window.location.href.split('?')[0] + "?" + window.location.href.split('?')[1].split('&')[0];
+                    }
                 },
                 error: function (data) {
                     Swal.fire(
                         'Étrange !',
-                        'Une erreur s\'est produite pendant la désactivation veuillez réessayer.',
+                        'Une erreur s\'est produite veuillez réessayer.'+data,
                         'error'
-                    )
+                    );
                 }
             });
         }

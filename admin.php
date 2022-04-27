@@ -52,6 +52,9 @@ if (!isset($_SESSION['id'])) {
     <?php if(isset($_GET['desactivateUser'])) { ?>
         <script>admin('desactivateUser'); </script>
     <?php } ?>
+    <?php if(isset($_GET['activateUser'])) { ?>
+        <script>admin('activateUser'); </script>
+    <?php } ?>
     <!-- NAVIGATION -->
     <nav class="navbar navbar-vertical fixed-start navbar-expand-md navbar-light" id="sidebar">
         <div class="container-fluid">
@@ -127,43 +130,6 @@ if (!isset($_SESSION['id'])) {
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item"><a href="./admin.php?customer" class="nav-link ">Clients</a></li>
                                 <li class="nav-item"><a href="./admin.php?staff" class="nav-link ">Staff</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarFilms" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarFilms">
-                            <i class="fe fe-film"></i> Films
-                        </a>
-                        <div class="collapse hidden" id="sidebarFilms">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="./admin.php?actor" class="nav-link ">Acteurs</a></li>
-                                <li class="nav-item"><a href="./admin.php?film" class="nav-link ">Films</a></li>
-                                <li class="nav-item"><a href="./admin.php?language" class="nav-link ">Langues</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAddress" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAddress">
-                            <i class="fe fe-map-pin"></i> Adresses
-                        </a>
-                        <div class="collapse hidden" id="sidebarAddress">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="./admin.php?address" class="nav-link ">Adresses</a></li>
-                                <li class="nav-item"><a href="./admin.php?city" class="nav-link ">Villes</a></li>
-                                <li class="nav-item"><a href="./admin.php?country" class="nav-link ">Pays</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarRentals" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarRentals">
-                            <i class="fe fe-shopping-cart"></i> Locations
-                        </a>
-                        <div class="collapse hidden" id="sidebarRentals">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item"><a href="./admin.php?inventory" class="nav-link ">Inventaire</a></li>
-                                <li class="nav-item"><a href="./admin.php?payment" class="nav-link ">Paiements</a></li>
-                                <li class="nav-item"><a href="./admin.php?rental" class="nav-link ">Locations</a></li>
-                                <li class="nav-item"><a href="./admin.php?store" class="nav-link ">Magasins</a></li>
                             </ul>
                         </div>
                     </li>

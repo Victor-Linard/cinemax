@@ -250,15 +250,20 @@ function constructUsersTable($config, $table) {
     $req->execute();
     $str = '';
     while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        $id = $data[$table == 'staff' ? 'staff_id' : 'customer_id'];
+        if ($data['active'] == 1)
+            $desactivateUser = '<a href="admin.php?'.$table.'&desactivateUser&'.$id.'"><span class="badge bg-danger-soft">Désactiver</span></a>';
+        else
+            $desactivateUser = '<a href="admin.php?'.$table.'&activateUser&'.$id.'"><span class="badge bg-success-soft">Activer</span></a>';
+
         $str .= '<tr>
-                <td class="users-number">'.$data[$table == 'staff' ? 'staff_id' : 'customer_id'].'</td>
+                <td class="users-number">'.$id.'</td>
                 <td class="users-firstname">'.$data['first_name'].'</td>
                 <td class="users-lastname">'.$data['last_name'].'</td>
                 <td class="users-email">'.$data['email'].'</td>
                 <td class="users-lastupdate">'.$data['last_update'].'</td>
                 <td class="text-end">
-                    <a href="#"><span class="badge bg-info-soft">Modifier</span></a>
-                    <a href="admin.php?'.$table.'&desactivateUser"><span class="badge bg-danger-soft">Désactiver</span></a>
+                    '.$desactivateUser.'
                 </td>
             </tr>';
     }
